@@ -20,7 +20,12 @@ namespace EPPlusExporterDemo
 
             Console.WriteLine("Export to Excel...");
             var fileInfo = new FileInfo("EPPlusExporterDemo.xlsx");
-            var exporter = new EnumerableExporter(data);
+            var exporter = new EnumerableExporter<Employee>(data)
+                .Ignore(n => n.Phone)
+                //.Ignore(n => n.DateOfBirth)
+                .DisplayFormatFor(n => n.UserName, "Toto: {0}")
+                .DisplayFormatFor(n => n.DateOfBirth, "{0:u}");
+
             var excelPackage = exporter.CreateExcelPackage();
             excelPackage.SaveAs(fileInfo);
 

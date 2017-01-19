@@ -48,7 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WorksheetHelper.cs" />
+    <Compile Include="Helpers\PropertyName.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="IExportFormat.cs" />
+    <Compile Include="Helpers\WorksheetHelper.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="EnumerableExporter.cs" />
