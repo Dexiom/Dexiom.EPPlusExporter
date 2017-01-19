@@ -1,2 +1,17 @@
+##***Not ready for production yet***
+
 # Dexiom.EPPlusExporter
-Easily export any .NET object or collection to Excel.
+
+
+Project Description
+-------------------
+A very simple, yet incredibly powerfull library to generate Excel documents based on .Net objects.
+
+### Download & Install
+
+```
+Install-Package Dexiom.EPPlusExporter
+```
+
+Usage
+-----
