@@ -1,4 +1,4 @@
-##---_Not ready for production yet_---
+##_Not ready for production_
 ---
 
 # Dexiom.EPPlusExporter
