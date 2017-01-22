@@ -12,7 +12,7 @@ namespace Dexiom.EPPlusExporter.Helpers
     public static class WorksheetHelper
     {
         #region Internal
-        internal static ExcelRange AddWorksheet(ExcelPackage package, IEnumerable<object> data, string worksheetName)
+        internal static ExcelRange AddDataWorksheet(ExcelPackage package, IEnumerable<object> data, string worksheetName)
         {
             //Avoid multiple enumeration
             var myData = data as IList<object> ?? data.ToList();

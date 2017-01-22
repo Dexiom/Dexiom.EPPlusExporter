@@ -44,7 +44,7 @@ namespace Dexiom.EPPlusExporter
             return retVal;
         }
 
-        public ExcelWorksheet AppendToExistingPackage(ExcelPackage package)
+        public ExcelWorksheet AddWorksheetToExistingPackage(ExcelPackage package)
         {
             var excelRange = AddWorksheet(package);
             WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
@@ -110,7 +110,7 @@ namespace Dexiom.EPPlusExporter
 
         #endregion
 
-            #region Properties
+        #region Properties
 
         public string WorksheetName { get; set; } = "Data";
 

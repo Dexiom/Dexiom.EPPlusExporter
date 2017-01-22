@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporter", "De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPPlusExporterDemo", "EPPlusExporterDemo\EPPlusExporterDemo.csproj", "{99D12BF0-63A3-4D53-839E-97B6F702A5B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporterTests", "Dexiom.EPPlusExporterTests\Dexiom.EPPlusExporterTests.csproj", "{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{99D12BF0-63A3-4D53-839E-97B6F702A5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99D12BF0-63A3-4D53-839E-97B6F702A5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99D12BF0-63A3-4D53-839E-97B6F702A5B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
