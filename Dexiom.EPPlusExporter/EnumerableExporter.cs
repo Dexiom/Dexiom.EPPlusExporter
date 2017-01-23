@@ -13,16 +13,12 @@ using OfficeOpenXml.Table;
 
 namespace Dexiom.EPPlusExporter
 {
-    public class EnumerableExporter 
-        : EnumerableExporter<object>
+    #region Create Method (Using Type Interference)
+    public class EnumerableExporter
     {
-        #region Constructors
-        public EnumerableExporter(IEnumerable<object> data) 
-            : base(data)
-        {
-        }
-        #endregion
+        public static EnumerableExporter<T> Create<T>(IEnumerable<T> data) where T : class => new EnumerableExporter<T>(data);
     }
+    #endregion
 
     public class EnumerableExporter<T> : IExportFormat<T>
         where T : class
@@ -32,6 +28,7 @@ namespace Dexiom.EPPlusExporter
         {
             Data = data;
         }
+
         #endregion
 
         #region Public Functions

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Helpers\PropertyName.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="IExportFormat.cs" />

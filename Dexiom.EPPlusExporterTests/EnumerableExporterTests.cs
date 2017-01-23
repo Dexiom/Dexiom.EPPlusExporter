@@ -98,5 +98,26 @@ namespace Dexiom.EPPlusExporter.Tests
 
             TestHelper.OpenDocumentIfRequired(excelPackage);
         }
+
+        [TestMethod()]
+        public void UseAnonymousEnumerable()
+        {
+            var employees = TestHelper.GetEmployees().Select(n => new
+            {
+                Login = n.UserName,
+                Mail = n.Email
+            });
+
+            var exporter = EnumerableExporter.Create(employees);
+
+            var excelPackage = exporter.CreateExcelPackage();
+
+            //check if the UserName column was removed
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            var myCell = excelWorksheet.Cells[1, 2].FlagInfo();
+            Assert.IsTrue(myCell.Text == "Mail");
+
+            TestHelper.OpenDocumentIfRequired(excelPackage);
+        }
     }
 }
