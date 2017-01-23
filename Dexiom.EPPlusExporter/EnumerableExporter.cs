@@ -13,7 +13,7 @@ using OfficeOpenXml.Table;
 
 namespace Dexiom.EPPlusExporter
 {
-    #region Create Method (Using Type Interference)
+    #region Create Method (using type inference)
     public class EnumerableExporter
     {
         public static EnumerableExporter<T> Create<T>(IEnumerable<T> data) where T : class => new EnumerableExporter<T>(data);
