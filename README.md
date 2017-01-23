@@ -38,11 +38,19 @@ var exporter = EnumerableExporter.Create(employees);
 var excelPackage = exporter.CreateExcelPackage();
 ```
 
+## Creating and exporter instance
+There are two ways to instantiate the exporter.
+```cs
+var exporter1 = new EnumerableExporter<Employee>(employees) //#1 with the standard contructor
+var exporter2 = EnumerableExporter.Create(employees) //#2 with the create method using type inference
+```
+Both gives the same output however, we recommend #2 because it will make things much easier when working with anonymous types (the type inference is important when working with the fluent interface). It's also shorter ;-)
+
 ## Quick Customizations (using fluent interface)
 Quick customization can be accomplished by using the fluent interface like this:
 
 ```cs
-var excelPackage = new EnumerableExporter<Employee>(data)
+var excelPackage = EnumerableExporter.Create(employees) //new EnumerableExporter<Employee>(employees)
 	.Ignore(n => n.UserName) //do not show the "UserName" column in the output
 	.Ignore(n => n.Phone) //do not show the "Phone" column in the output
 	.DisplayFormatFor(n => n.DateOfBirth, "{0:yyyy-MM-dd}") //Set a specific format for the "DateOfBirth"
@@ -50,5 +58,5 @@ var excelPackage = new EnumerableExporter<Employee>(data)
 ```
 
 * Available customizations:
- * Ignore: to ignore a column when generating the Excel document
- * DisplayFormatFor is used to specify a custom display format
+ * **Ignore** is used to skip a column when generating the document
+ * **DisplayFormatFor** is used to specify a custom display format
