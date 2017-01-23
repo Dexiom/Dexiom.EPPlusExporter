@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Dexiom.EPPlusExporter
 {
-    public interface IExportFormat<T> 
+    public interface ITableOutputCustomization<T> 
         where T : class
     {
         Dictionary<string, string> DisplayFormats { get; set; }
 
-        EnumerableExporter<T> DisplayFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format);
+        TableExporter<T> DisplayFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format);
 
 
         HashSet<string> IgnoredProperties { get; set; }
-        EnumerableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property);
+        TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property);
     }
 }

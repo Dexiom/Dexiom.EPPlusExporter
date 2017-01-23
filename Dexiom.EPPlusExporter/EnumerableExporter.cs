@@ -20,39 +20,20 @@ namespace Dexiom.EPPlusExporter
     }
     #endregion
 
-    public class EnumerableExporter<T> : IExportFormat<T>
+    public class EnumerableExporter<T> : TableExporter<T>
         where T : class
     {
+        public IEnumerable<T> Data { get; set; }
+
         #region Constructors
         public EnumerableExporter(IEnumerable<T> data)
         {
             Data = data;
         }
-
         #endregion
 
-        #region Public Functions
-        public ExcelPackage CreateExcelPackage()
-        {
-            var retVal = new ExcelPackage();
-            var excelRange = AddWorksheet(retVal);
-            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
-
-            return retVal;
-        }
-
-        public ExcelWorksheet AddWorksheetToExistingPackage(ExcelPackage package)
-        {
-            var excelRange = AddWorksheet(package);
-            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
-
-            return excelRange.Worksheet;
-        }
-        #endregion
-
-        #region Private
-
-        internal ExcelRange AddWorksheet(ExcelPackage package)
+        #region Protected
+        protected override ExcelRange AddWorksheet(ExcelPackage package)
         {
             //Avoid multiple enumeration
             var myData = Data as IList<T> ?? Data.ToList();
@@ -75,11 +56,10 @@ namespace Dexiom.EPPlusExporter
             }
 
             //Add rows
-            for (var iRow = 2; iRow < myData.Count + 2; iRow++)
+            var iRow = 2;
+            foreach (var item in myData)
             {
-                var item = myData.ElementAt(iRow - 2);
                 iCol = 0;
-
                 foreach (var property in properties)
                 {
                     if (IgnoredProperties.Contains(property.Name))
@@ -88,12 +68,17 @@ namespace Dexiom.EPPlusExporter
                     iCol++;
                     worksheet.Cells[iRow, iCol].Value = GetPropertyValue(property, item);
                 }
+
+                iRow++;
             }
 
             return worksheet.Cells[1, 1, myData.Count + 1, iCol];
         }
 
-        internal object GetPropertyValue(PropertyInfo property, object item)
+        #endregion
+
+        #region Private
+        private object GetPropertyValue(PropertyInfo property, object item)
         {
             if (DisplayFormats.ContainsKey(property.Name))
             {
@@ -104,40 +89,7 @@ namespace Dexiom.EPPlusExporter
 
             return ReflectionHelper.GetPropertyValue(property, item);
         }
-
-        #endregion
-
-        #region Properties
-
-        public string WorksheetName { get; set; } = "Data";
-
-        public TableStyles TableStyle { get; set; } = TableStyles.Medium4;
-
-        public IEnumerable<T> Data { get; set; }
-
-        #endregion
-
-        #region IExportFormat<T>
-        public Dictionary<string, string> DisplayFormats { get; set; } = new Dictionary<string, string>();
-        public EnumerableExporter<T> DisplayFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format)
-        {
-            var propertyName = PropertyName.For(property);
-            if (DisplayFormats.ContainsKey(propertyName))
-                DisplayFormats[propertyName] = format;
-            else
-                DisplayFormats.Add(propertyName, format);
-
-            return this;
-        }
-
-        public HashSet<string> IgnoredProperties { get; set; } = new HashSet<string>();
-        public EnumerableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property)
-        {
-            var propertyName = PropertyName.For(property);
-            IgnoredProperties.Add(propertyName);
-
-            return this;
-        }
+        
         #endregion
     }
 }

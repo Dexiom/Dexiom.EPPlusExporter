@@ -15,17 +15,30 @@ namespace EPPlusExporterDemo
     {
         static void Main(string[] args)
         {
-            CreateSimpleSpreadsheet();
+            ExportSimpleObject();
+            ExportEnumerable();
         }
 
-        private static void CreateSimpleSpreadsheet()
+        private static void ExportSimpleObject()
+        {
+            Console.WriteLine("Create fake data...");
+            var fakePerson = new Employee(new Person());
+
+            Console.WriteLine("Export to Excel...");
+            var exporter = ObjectExporter.Create(fakePerson);
+            
+            var excelPackage = exporter.CreateExcelPackage();
+            SaveAndOpenDocument(excelPackage);
+        }
+
+        private static void ExportEnumerable()
         {
             Console.WriteLine("Create fake data...");
             var faker = new Faker<Employee>().CustomInstantiator(n => new Employee(new Person()));
             var data = faker.Generate(1000);
 
             Console.WriteLine("Export to Excel...");
-            var exporter = new EnumerableExporter<Employee>(data)
+            var exporter = EnumerableExporter.Create(data)
                 .Ignore(n => n.Phone)
                 //.Ignore(n => n.DateOfBirth)
                 .DisplayFormatFor(n => n.UserName, "==> {0}");
