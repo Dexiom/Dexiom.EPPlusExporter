@@ -16,9 +16,16 @@ Install-Package Dexiom.EPPlusExporter
 
 #Usage
 
+## Creating a new exporter
+There are two ways to instantiate the exporter.
+```cs
+var exporter1 = new EnumerableExporter<Employee>(employees) //#1 with the standard contructor
+var exporter2 = EnumerableExporter.Create(employees) //#2 with the create method using type inference
+```
+Both gives the same output however, **we recommend #2** because it will make things much easier when working with anonymous types (*the type inference is important when working with the fluent interface*). It's also shorter ;-)
 
-## The basic example
-Let's say you want to dump an array or a list of objects to Excel (without any specific formatting).
+## Basic example
+Let's say you want to dump an array or a list of objects to Excel (without any specific formatting).  
 One line of code is all you need.
 
 ```cs
@@ -37,14 +44,6 @@ var employees = TestHelper.GetEmployees().Select(n => new
 var exporter = EnumerableExporter.Create(employees);
 var excelPackage = exporter.CreateExcelPackage();
 ```
-
-## Creating and exporter instance
-There are two ways to instantiate the exporter.
-```cs
-var exporter1 = new EnumerableExporter<Employee>(employees) //#1 with the standard contructor
-var exporter2 = EnumerableExporter.Create(employees) //#2 with the create method using type inference
-```
-Both gives the same output however, we recommend #2 because it will make things much easier when working with anonymous types (the type inference is important when working with the fluent interface). It's also shorter ;-)
 
 ## Quick Customizations (using fluent interface)
 Quick customization can be accomplished by using the fluent interface like this:
