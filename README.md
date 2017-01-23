@@ -32,7 +32,7 @@ One line of code is all you need.
 var excelPackage = EnumerableExporter.Create(employees).CreateExcelPackage();
 ```
 
-## Exporting anonymous enumerables
+## Exporting an Anonymous Enumerable
 
 ```cs
 var employees = TestHelper.GetEmployees().Select(n => new
