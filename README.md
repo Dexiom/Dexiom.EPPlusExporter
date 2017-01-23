@@ -8,7 +8,7 @@ Project Description
 -------------------
 A very simple, yet incredibly powerfull library to generate Excel documents with objects, arrays, lists, collections, etc.
 
-### Download & Install
+### Download & Install (not published yet)
 
 ```
 Install-Package Dexiom.EPPlusExporter
