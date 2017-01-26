@@ -1,8 +1,5 @@
-**_Not ready for production_**
----
-
 # Dexiom.EPPlusExporter
-
+[![Build status](https://ci.appveyor.com/api/projects/status/pbnru8yvomkpov5u?svg=true)](https://ci.appveyor.com/project/jpare/dexiom-epplusexporter)
 
 Project Description
 -------------------
