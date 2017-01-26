@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Dexiom.EPPlusExporter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Consultation Dexiom inc.")]
 [assembly: AssemblyProduct("Dexiom.EPPlusExporter")]
-[assembly: AssemblyCopyright("Copyright © Dexiom 2017")]
+[assembly: AssemblyCopyright("Copyright © Dexiom 2016-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.9.0.0")]
+[assembly: AssemblyFileVersion("0.9.0.0")]

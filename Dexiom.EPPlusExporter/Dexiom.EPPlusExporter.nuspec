@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>© Consultation Dexiom inc. 2016-2017</copyright>
+    <tags>Excel EPPlus Export XLSX XLS</tags>
+    <dependencies>
+      <dependency id="EPPlus" version="4.1.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net45"></file>
+  </files>
+</package>
