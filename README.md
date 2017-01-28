@@ -53,10 +53,10 @@ var excelPackage = EnumerableExporter.Create(employees) //new EnumerableExporter
 	.Ignore(n => n.Email) //do not show the "Column" column in the output
 	.TextFormatFor(n => n.Phone, "Cell: {0}") //add the "Cell: " prefix to the value
 	.StyleFor(n => n.DateContractEnd, style =>
-                {
-                    style.Fill.Gradient.Color1.SetColor(Color.Yellow);
-                    style.Fill.Gradient.Color2.SetColor(Color.Green);
-                }) //the cells in this columns now have a gradiant background
+	{
+	    style.Fill.Gradient.Color1.SetColor(Color.Yellow);
+	    style.Fill.Gradient.Color2.SetColor(Color.Green);
+	}) //the cells in this columns now have a gradiant background
 	.CreateExcelPackage();
 ```
 
