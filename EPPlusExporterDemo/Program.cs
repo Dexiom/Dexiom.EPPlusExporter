@@ -18,7 +18,7 @@ namespace EPPlusExporterDemo
         static void Main(string[] args)
         {
             ExportSimpleObject();
-            //ExportEnumerable();
+            ExportEnumerable();
         }
 
         private static void ExportSimpleObject()

@@ -54,7 +54,7 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
-        public void DisplayFormatForTest()
+        public void TextFormatForTest()
         {
             const string token = "*CUSTOM_FORMAT*";
             var exporter = TestHelper.CreateEmployeeExporter()
