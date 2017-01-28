@@ -22,9 +22,9 @@ namespace EPPlusExporterDemo
         private static void ExportSimpleObject()
         {
             Console.WriteLine("Create fake data...");
-            var fakePerson = new Employee(new Person());
+            var fakePerson = new Employee();
 
-            Console.WriteLine("Export to Excel...");
+            Console.WriteLine("Exporting Simple Object...");
             var exporter = ObjectExporter.Create(fakePerson);
             
             var excelPackage = exporter.CreateExcelPackage();
@@ -34,10 +34,10 @@ namespace EPPlusExporterDemo
         private static void ExportEnumerable()
         {
             Console.WriteLine("Create fake data...");
-            var faker = new Faker<Employee>().CustomInstantiator(n => new Employee(new Person()));
+            var faker = new Faker<Employee>().CustomInstantiator(n => new Employee());
             var data = faker.Generate(1000);
 
-            Console.WriteLine("Export to Excel...");
+            Console.WriteLine("Exporting Enumerable...");
             var exporter = EnumerableExporter.Create(data)
                 .Ignore(n => n.Phone)
                 .TextFormatFor(n => n.UserName, "==> {0}")

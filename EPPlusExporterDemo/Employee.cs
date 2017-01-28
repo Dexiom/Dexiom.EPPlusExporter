@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bogus;
 
 namespace EPPlusExporterDemo
 {
@@ -12,11 +13,7 @@ namespace EPPlusExporterDemo
     {
         public Employee()
         {
-            
-        }
-
-        public Employee(Bogus.Person person)
-        {
+            var person = new Person();
             UserName = person.UserName;
             FirstName = person.FirstName;
             LastName = person.LastName;
@@ -29,7 +26,9 @@ namespace EPPlusExporterDemo
             DateHired = bogusDate.Between(DateTime.Today.AddYears(-5), DateTime.Today);
             DateContractEnd = bogusDate.Between(DateTime.Today, DateTime.Today.AddYears(-5));
             LuckyNumber = bogusRandom.Int(0, 100);
+            ChildrenCount = bogusRandom.Int(0, 6);
             ChangeInPocket = bogusRandom.Double(0, 5);
+            CarValue = bogusRandom.Decimal(500, 40000);
         }
 
         public string UserName { get; set; }
@@ -39,7 +38,14 @@ namespace EPPlusExporterDemo
         public string Phone { get; set; }
 
         public int LuckyNumber { get; set; }
+
+        [Display(Name = "Nb Children")]
+        public int ChildrenCount { get; set; }
+
         public double ChangeInPocket { get; set; }
+        
+        [DisplayName("Car resale value")]
+        public decimal CarValue { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateOfBirth { get; set; }
