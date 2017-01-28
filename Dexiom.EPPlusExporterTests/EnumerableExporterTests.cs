@@ -94,7 +94,7 @@ namespace Dexiom.EPPlusExporter.Tests
             //check if the UserName column was removed
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
             var myCell = excelWorksheet.Cells[1, 1].FlagInfo();
-            Assert.IsTrue(myCell.Text == "FirstName");
+            Assert.IsTrue(myCell.Text == "First Name");
 
             TestHelper.OpenDocumentIfRequired(excelPackage);
         }
