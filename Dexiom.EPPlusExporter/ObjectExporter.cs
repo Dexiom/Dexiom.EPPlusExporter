@@ -39,15 +39,16 @@ namespace Dexiom.EPPlusExporter
 
             var properties = Data.GetType().GetProperties();
             var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
+            var displayedProperties = properties.Where(p => !IgnoredProperties.Contains(p.Name)).ToList();
 
             //Create table header
             worksheet.Cells[1, 1].Value = "Item";
             worksheet.Cells[1, 2].Value = "Value";
 
             //Add rows
-            var myData = properties.Select(property => new
+            var myData = displayedProperties.Select(property => new
             {
-                Name = ReflectionHelper.GetPropertyDisplayName(property),
+                Property = property,
                 Value = property.GetValue(Data)
             });
 
@@ -55,8 +56,22 @@ namespace Dexiom.EPPlusExporter
             foreach (var item in myData)
             {
                 iRow++;
-                worksheet.Cells[iRow, 1].Value = item.Name;
-                worksheet.Cells[iRow, 2].Value = item.Value;
+                var nameCell = worksheet.Cells[iRow, 1];
+                var valueCell = worksheet.Cells[iRow, 2];
+                nameCell.Value = ReflectionHelper.GetPropertyDisplayName(item.Property);
+                valueCell.Value = item.Value;
+                
+                //apply default number format
+                if (DefaultNumberFormats.ContainsKey(item.Property.PropertyType))
+                    valueCell.Style.Numberformat.Format = DefaultNumberFormats[item.Property.PropertyType];
+
+                //apply number format
+                if (NumberFormats.ContainsKey(item.Property.Name))
+                    valueCell.Style.Numberformat.Format = NumberFormats[item.Property.Name];
+
+                //apply style
+                if (ColumnStyles.ContainsKey(item.Property.Name))
+                    ColumnStyles[item.Property.Name](valueCell.Style);
             }
 
             return worksheet.Cells[1, 1, iRow, 2];

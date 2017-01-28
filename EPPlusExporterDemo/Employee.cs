@@ -25,10 +25,10 @@ namespace EPPlusExporterDemo
             var bogusDate = new Bogus.DataSets.Date();
             DateHired = bogusDate.Between(DateTime.Today.AddYears(-5), DateTime.Today);
             DateContractEnd = bogusDate.Between(DateTime.Today, DateTime.Today.AddYears(-5));
-            LuckyNumber = bogusRandom.Int(0, 100);
             ChildrenCount = bogusRandom.Int(0, 6);
+            ShoeSize = bogusRandom.Double(7, 12);
             ChangeInPocket = bogusRandom.Double(0, 5);
-            CarValue = bogusRandom.Decimal(500, 40000);
+            CarValue = bogusRandom.Double(500, 40000);
         }
 
         public string UserName { get; set; }
@@ -37,15 +37,15 @@ namespace EPPlusExporterDemo
         public string Email { get; set; }
         public string Phone { get; set; }
 
-        public int LuckyNumber { get; set; }
-
         [Display(Name = "Nb Children")]
         public int ChildrenCount { get; set; }
+
+        public double ShoeSize { get; set; }
 
         public double ChangeInPocket { get; set; }
         
         [DisplayName("Car resale value")]
-        public decimal CarValue { get; set; }
+        public double CarValue { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateOfBirth { get; set; }

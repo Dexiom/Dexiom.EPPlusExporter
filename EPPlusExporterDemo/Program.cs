@@ -17,8 +17,8 @@ namespace EPPlusExporterDemo
     {
         static void Main(string[] args)
         {
-            //ExportSimpleObject();
-            ExportEnumerable();
+            ExportSimpleObject();
+            //ExportEnumerable();
         }
 
         private static void ExportSimpleObject()
@@ -27,7 +27,11 @@ namespace EPPlusExporterDemo
             var fakePerson = new Employee();
 
             Console.WriteLine("Exporting Simple Object...");
-            var exporter = ObjectExporter.Create(fakePerson);
+            var exporter = ObjectExporter.Create(fakePerson)
+                .Ignore(n => n.Phone)
+                .DefaultNumberFormat(typeof(DateTime), "yyyy-MM-dd")
+                .DefaultNumberFormat(typeof(double), "#,##0.00 $")
+                .NumberFormatFor(n => n.ShoeSize, "0.0");
             
             var excelPackage = exporter.CreateExcelPackage();
             SaveAndOpenDocument(excelPackage);
@@ -41,14 +45,18 @@ namespace EPPlusExporterDemo
 
             Console.WriteLine("Exporting Enumerable...");
             var exporter = EnumerableExporter.Create(data)
-                .Ignore(n => n.Phone)
                 .DefaultNumberFormat(typeof(DateTime), "yyyy-MM-dd")
-                .TextFormatFor(n => n.UserName, "==> {0}")
                 .NumberFormatFor(n => n.DateHired, "dd-MM-yyyy")
+                .NumberFormatFor(n => n.DateHired, "dd-MM-yyyy")
+                .NumberFormatFor(n => n.ShoeSize, "0.0")
+                .NumberFormatFor(n => n.ChangeInPocket, "0.00 $")
+                .NumberFormatFor(n => n.CarValue, "#,##0.00 $")
+                .Ignore(n => n.Email)
+                .TextFormatFor(n => n.Phone, "Cell: {0}")
                 .StyleFor(n => n.DateContractEnd, style =>
                 {
-                    style.Fill.PatternType = ExcelFillStyle.Solid;
-                    style.Fill.BackgroundColor.SetColor(Color.DarkOrange);
+                    style.Fill.Gradient.Color1.SetColor(Color.Yellow);
+                    style.Fill.Gradient.Color2.SetColor(Color.Green);
                 });
 
 
