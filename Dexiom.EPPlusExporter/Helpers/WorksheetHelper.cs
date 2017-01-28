@@ -40,7 +40,7 @@ namespace Dexiom.EPPlusExporter.Helpers
                 foreach (var property in properties)
                 {
                     iCol++;
-                    worksheet.Cells[iRow, iCol].Value = ReflectionHelper.GetPropertyValue(property, item);
+                    worksheet.Cells[iRow, iCol].Value = ReflectionHelper.GetPropertyDisplayValue(property, item);
                 }
             }
             

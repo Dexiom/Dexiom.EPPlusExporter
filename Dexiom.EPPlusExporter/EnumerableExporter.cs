@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporter.Helpers;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 
 namespace Dexiom.EPPlusExporter
@@ -35,7 +36,12 @@ namespace Dexiom.EPPlusExporter
         #region Protected
         protected override ExcelRange AddWorksheet(ExcelPackage package)
         {
-            //Avoid multiple enumeration
+            const int headerFirstRow = 1;
+            const int headerFirstCol = 1;
+            const int dataFirstRow = 2;
+            const int dataFirstCol = 1;
+
+            //let's avoid multiple enumeration
             var myData = Data as IList<T> ?? Data.ToList();
 
             if (Data == null || !myData.Any())
@@ -43,53 +49,66 @@ namespace Dexiom.EPPlusExporter
 
             var properties = myData.First().GetType().GetProperties();
             var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
+            var displayedProperties = properties.Where(p => !IgnoredProperties.Contains(p.Name)).ToList();
 
             //Create table header
-            var iCol = 0;
-            foreach (var property in properties)
             {
-                if (IgnoredProperties.Contains(property.Name))
-                    continue;
-
-                iCol++;
-                worksheet.Cells[1, iCol].Value = ReflectionHelper.GetPropertyDisplayName(property);
+                var col = headerFirstCol;
+                foreach (var property in displayedProperties)
+                {
+                    worksheet.Cells[headerFirstRow, col].Value = ReflectionHelper.GetPropertyDisplayName(property);
+                    col++;
+                }
             }
 
             //Add rows
-            var iRow = 2;
+            var row = dataFirstRow;
             foreach (var item in myData)
             {
-                iCol = 0;
-                foreach (var property in properties)
+                var iCol = dataFirstCol;
+                foreach (var property in displayedProperties)
                 {
-                    if (IgnoredProperties.Contains(property.Name))
-                        continue;
+                    worksheet.Cells[row, iCol].Value = GetPropertyValue(property, item);
+                    iCol++;
+                }
+                row++;
+            }
+            
+            //get bottom & right bounds
+            var dataLastCol = dataFirstCol + displayedProperties.Count - 1;
+            var dataLastRow = dataFirstRow + myData.Count - 1;
+
+            //apply styles
+            {
+                var iCol = dataFirstCol;
+                foreach (var property in displayedProperties)
+                {
+                    if (CellStyles.ContainsKey(property.Name))
+                    {
+                        var columnRange = worksheet.Cells[dataFirstRow, iCol, dataLastRow, iCol];
+                        CellStyles[property.Name](columnRange.Style);
+                    }
 
                     iCol++;
-                    worksheet.Cells[iRow, iCol].Value = GetPropertyValue(property, item);
                 }
-
-                iRow++;
             }
-
-            return worksheet.Cells[1, 1, myData.Count + 1, iCol];
+        
+            //return the entire grid range
+            return worksheet.Cells[headerFirstRow, headerFirstCol, dataLastRow, dataLastCol]; 
         }
 
         #endregion
 
         #region Private
+
         private object GetPropertyValue(PropertyInfo property, object item)
         {
-            if (DisplayFormats.ContainsKey(property.Name))
-            {
-                var value = property.GetValue(item);
-                if (value != null)
-                    return string.Format(DisplayFormats[property.Name], value);
-            }
+            var value = property.GetValue(item);
+            if (value != null && DisplayFormats.ContainsKey(property.Name))
+                return string.Format(DisplayFormats[property.Name], value);
 
-            return ReflectionHelper.GetPropertyValue(property, item);
+            return value;
         }
-        
         #endregion
     }
 }

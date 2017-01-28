@@ -40,14 +40,14 @@ namespace EPPlusExporterDemo
             Console.WriteLine("Export to Excel...");
             var exporter = EnumerableExporter.Create(data)
                 .Ignore(n => n.Phone)
-                //.Ignore(n => n.DateOfBirth)
-                .DisplayFormatFor(n => n.UserName, "==> {0}");
+                .DisplayFormatFor(n => n.UserName, "==> {0}")
+                .StyleFor(n => n.DateOfBirth, style => style.Numberformat.Format = "YYYY-MMM-DD");
             
             var excelPackage = exporter.CreateExcelPackage();
             SaveAndOpenDocument(excelPackage);
         }
 
-        public static void SaveAndOpenDocument(ExcelPackage excelPackage)
+        private static void SaveAndOpenDocument(ExcelPackage excelPackage)
         {
             Console.WriteLine("Opening document");
             

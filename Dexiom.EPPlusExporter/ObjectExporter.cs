@@ -48,7 +48,7 @@ namespace Dexiom.EPPlusExporter
             var myData = properties.Select(property => new
             {
                 Name = ReflectionHelper.GetPropertyDisplayName(property),
-                Value = ReflectionHelper.GetPropertyValue(property, Data)
+                Value = property.GetValue(Data)
             });
 
             var iRow = 1;

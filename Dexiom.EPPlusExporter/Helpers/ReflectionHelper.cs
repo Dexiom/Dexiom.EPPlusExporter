@@ -22,14 +22,14 @@ namespace Dexiom.EPPlusExporter.Helpers
             if (displayAttribute != null)
                 return displayAttribute.Name;
 
-            //well, let's just take that property name then...
+            //well, no attribue found, let's just take that property's name then...
             return property.Name;
         }
-
-        internal static object GetPropertyValue(PropertyInfo property, object item)
+        
+        internal static object GetPropertyDisplayValue(PropertyInfo property, object item)
         {
             var value = property.GetValue(item);
-            
+
             //check for customization via attribute
             var displayFormatAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayFormatAttribute>(property, true);
             if (displayFormatAttribute != null)
