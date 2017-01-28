@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Bogus;
 using Dexiom.EPPlusExporter;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace EPPlusExporterDemo
 {
@@ -40,9 +42,16 @@ namespace EPPlusExporterDemo
             Console.WriteLine("Exporting Enumerable...");
             var exporter = EnumerableExporter.Create(data)
                 .Ignore(n => n.Phone)
+                .DefaultNumberFormat(typeof(DateTime), "yyyy-MM-dd")
                 .TextFormatFor(n => n.UserName, "==> {0}")
-                .StyleFor(n => n.DateOfBirth, style => style.Numberformat.Format = "YYYY-MMM-DD HH:mm:ss");
-            
+                .NumberFormatFor(n => n.DateHired, "dd-MM-yyyy")
+                .StyleFor(n => n.DateContractEnd, style =>
+                {
+                    style.Fill.PatternType = ExcelFillStyle.Solid;
+                    style.Fill.BackgroundColor.SetColor(Color.DarkOrange);
+                });
+
+
             var excelPackage = exporter.CreateExcelPackage();
             SaveAndOpenDocument(excelPackage);
         }

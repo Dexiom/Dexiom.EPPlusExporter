@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporter.Extensions;
 
@@ -12,7 +13,7 @@ namespace Dexiom.EPPlusExporter.Helpers
 {
     internal static class ReflectionHelper
     {
-        internal static string GetPropertyDisplayName(MemberInfo property)
+        public static string GetPropertyDisplayName(MemberInfo property, bool splitCamelCase = true)
         {
             var displayNameAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayNameAttribute>(property, true);
             if (displayNameAttribute != null)
@@ -23,10 +24,10 @@ namespace Dexiom.EPPlusExporter.Helpers
                 return displayAttribute.Name;
 
             //well, no attribue found, let's just take that property's name then...
-            return property.Name;
+            return splitCamelCase ? SplitCamelCase(property.Name) : property.Name;
         }
-        
-        internal static object GetPropertyDisplayValue(PropertyInfo property, object item)
+
+        public static object GetPropertyDisplayValue(PropertyInfo property, object item)
         {
             var value = property.GetValue(item);
 
@@ -59,5 +60,20 @@ namespace Dexiom.EPPlusExporter.Helpers
             //well, let's throw the value...
             return value.ToString();
         }
+
+        #region Private
+        private static string SplitCamelCase(string text)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    text,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1 $2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1 $2"
+            );
+        }
+        #endregion
     }
 }

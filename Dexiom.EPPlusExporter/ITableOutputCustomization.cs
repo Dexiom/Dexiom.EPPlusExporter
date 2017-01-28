@@ -18,5 +18,6 @@ namespace Dexiom.EPPlusExporter
         TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle);
 
         TableExporter<T> DefaultNumberFormat(Type type, string numberFormat);
+        TableExporter<T> NumberFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string numberFormat);
     }
 }

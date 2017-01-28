@@ -86,11 +86,14 @@ namespace Dexiom.EPPlusExporter
                     var columnRange = worksheet.Cells[dataFirstRow, iCol, dataLastRow, iCol];
 
                     //apply default number format
-                    //set it before the cell style because the cell style could have a specific format
                     if (DefaultNumberFormats.ContainsKey(property.PropertyType))
                         columnRange.Style.Numberformat.Format = DefaultNumberFormats[property.PropertyType];
 
-                    //apply type
+                    //apply number format
+                    if (NumberFormats.ContainsKey(property.Name))
+                        columnRange.Style.Numberformat.Format = NumberFormats[property.Name];
+
+                    //apply style
                     if (ColumnStyles.ContainsKey(property.Name))
                         ColumnStyles[property.Name](columnRange.Style);
 

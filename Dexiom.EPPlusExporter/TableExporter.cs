@@ -53,7 +53,6 @@ namespace Dexiom.EPPlusExporter
         {
             var propertyName = PropertyName.For(property);
             IgnoredProperties.Add(propertyName);
-
             return this;
         }
 
@@ -68,6 +67,13 @@ namespace Dexiom.EPPlusExporter
             DefaultNumberFormats.AddOrUpdate(type, numberFormat);
             return this;
         }
+
+        public TableExporter<T> NumberFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string numberFormat)
+        {
+            NumberFormats.AddOrUpdate(PropertyName.For(property), numberFormat);
+            return this;
+        }
+
         #endregion
 
 
@@ -83,6 +89,10 @@ namespace Dexiom.EPPlusExporter
             { typeof(DateTime), "yyyy-MM-dd HH:mm:ss" },
             { typeof(DateTime?), "yyyy-MM-dd HH:mm:ss" }
         };
+
+        protected Dictionary<string, string> NumberFormats { get; set; } = new Dictionary<string, string>();
+
+
         #endregion
     }
 }
