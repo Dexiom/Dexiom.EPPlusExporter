@@ -31,8 +31,8 @@ namespace Dexiom.EPPlusExporter.Tests
         {
             var exporter = TestHelper.CreateEmployeeExporter()
                 .Ignore(n => n.Phone)
-                .DisplayFormatFor(n => n.UserName, "** {0} **")
-                .DisplayFormatFor(n => n.DateOfBirth, "{0:u}");
+                .TextFormatFor(n => n.UserName, "** {0} **")
+                .TextFormatFor(n => n.DateOfBirth, "{0:u}");
 
             var excelPackage = exporter.CreateExcelPackage();
 
@@ -58,8 +58,8 @@ namespace Dexiom.EPPlusExporter.Tests
         {
             const string token = "*CUSTOM_FORMAT*";
             var exporter = TestHelper.CreateEmployeeExporter()
-                .DisplayFormatFor(n => n.UserName, token + " {0}")
-                .DisplayFormatFor(n => n.DateOfBirth, "{0:yyyy-MM-dd}");
+                .TextFormatFor(n => n.UserName, token + " {0}")
+                .TextFormatFor(n => n.DateOfBirth, "{0:yyyy-MM-dd}");
 
             var excelPackage = exporter.CreateExcelPackage();
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Dexiom.EPPlusExporter.Extensions;
 using Dexiom.EPPlusExporter.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -42,14 +43,9 @@ namespace Dexiom.EPPlusExporter
         #endregion
 
         #region ITableOutputCustomization<T>
-        public TableExporter<T> DisplayFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format)
+        public TableExporter<T> TextFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format)
         {
-            var propertyName = PropertyName.For(property);
-            if (DisplayFormats.ContainsKey(propertyName))
-                DisplayFormats[propertyName] = format;
-            else
-                DisplayFormats.Add(propertyName, format);
-
+            TextFormats.AddOrUpdate(PropertyName.For(property), format);
             return this;
         }
 
@@ -61,25 +57,32 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
 
-        public TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> initStyle)
+        public TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle)
         {
-            var propertyName = PropertyName.For(property);
-            if (CellStyles.ContainsKey(propertyName))
-                CellStyles[propertyName] = initStyle;
-            else
-                CellStyles.Add(propertyName, initStyle);
-
+            ColumnStyles.AddOrUpdate(PropertyName.For(property), setStyle);
             return this;
         }
 
+        public TableExporter<T> DefaultNumberFormat(Type type, string numberFormat)
+        {
+            DefaultNumberFormats.AddOrUpdate(type, numberFormat);
+            return this;
+        }
         #endregion
 
+
         #region Protected 
-        protected Dictionary<string, string> DisplayFormats { get; set; } = new Dictionary<string, string>();
+        protected Dictionary<string, string> TextFormats { get; set; } = new Dictionary<string, string>();
 
         protected HashSet<string> IgnoredProperties { get; set; } = new HashSet<string>();
 
-        protected Dictionary<string, Action<ExcelStyle>> CellStyles { get; set; } = new Dictionary<string, Action<ExcelStyle>>();
+        protected Dictionary<string, Action<ExcelStyle>> ColumnStyles { get; set; } = new Dictionary<string, Action<ExcelStyle>>();
+
+        protected Dictionary<Type, string> DefaultNumberFormats { get; set; } = new Dictionary<Type, string>
+        {
+            { typeof(DateTime), "yyyy-MM-dd HH:mm:ss" },
+            { typeof(DateTime?), "yyyy-MM-dd HH:mm:ss" }
+        };
         #endregion
     }
 }

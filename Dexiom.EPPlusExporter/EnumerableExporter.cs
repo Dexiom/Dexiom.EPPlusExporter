@@ -83,11 +83,16 @@ namespace Dexiom.EPPlusExporter
                 var iCol = dataFirstCol;
                 foreach (var property in displayedProperties)
                 {
-                    if (CellStyles.ContainsKey(property.Name))
-                    {
-                        var columnRange = worksheet.Cells[dataFirstRow, iCol, dataLastRow, iCol];
-                        CellStyles[property.Name](columnRange.Style);
-                    }
+                    var columnRange = worksheet.Cells[dataFirstRow, iCol, dataLastRow, iCol];
+
+                    //apply default number format
+                    //set it before the cell style because the cell style could have a specific format
+                    if (DefaultNumberFormats.ContainsKey(property.PropertyType))
+                        columnRange.Style.Numberformat.Format = DefaultNumberFormats[property.PropertyType];
+
+                    //apply type
+                    if (ColumnStyles.ContainsKey(property.Name))
+                        ColumnStyles[property.Name](columnRange.Style);
 
                     iCol++;
                 }
@@ -104,8 +109,8 @@ namespace Dexiom.EPPlusExporter
         private object GetPropertyValue(PropertyInfo property, object item)
         {
             var value = property.GetValue(item);
-            if (value != null && DisplayFormats.ContainsKey(property.Name))
-                return string.Format(DisplayFormats[property.Name], value);
+            if (value != null && TextFormats.ContainsKey(property.Name))
+                return string.Format(TextFormats[property.Name], value);
 
             return value;
         }

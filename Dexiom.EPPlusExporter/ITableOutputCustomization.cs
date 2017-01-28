@@ -11,11 +11,12 @@ namespace Dexiom.EPPlusExporter
     public interface ITableOutputCustomization<T> 
         where T : class
     {
-        TableExporter<T> DisplayFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format);
-
+        TableExporter<T> TextFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format);
         
         TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property);
         
-        TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> initStyle);
+        TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle);
+
+        TableExporter<T> DefaultNumberFormat(Type type, string numberFormat);
     }
 }

@@ -15,7 +15,7 @@ namespace EPPlusExporterDemo
     {
         static void Main(string[] args)
         {
-            ExportSimpleObject();
+            //ExportSimpleObject();
             ExportEnumerable();
         }
 
@@ -40,8 +40,8 @@ namespace EPPlusExporterDemo
             Console.WriteLine("Export to Excel...");
             var exporter = EnumerableExporter.Create(data)
                 .Ignore(n => n.Phone)
-                .DisplayFormatFor(n => n.UserName, "==> {0}")
-                .StyleFor(n => n.DateOfBirth, style => style.Numberformat.Format = "YYYY-MMM-DD");
+                .TextFormatFor(n => n.UserName, "==> {0}")
+                .StyleFor(n => n.DateOfBirth, style => style.Numberformat.Format = "YYYY-MMM-DD HH:mm:ss");
             
             var excelPackage = exporter.CreateExcelPackage();
             SaveAndOpenDocument(excelPackage);
