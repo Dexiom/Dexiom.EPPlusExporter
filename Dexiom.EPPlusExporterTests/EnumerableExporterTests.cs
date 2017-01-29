@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporterTests.Extensions;
 using Dexiom.EPPlusExporterTests.Helpers;
-using Dexiom.EPPlusExporterTests.Model;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -21,103 +20,108 @@ namespace Dexiom.EPPlusExporter.Tests
     public class EnumerableExporterTests
     {
         [TestMethod()]
-        public void EnumerableExporterTest()
-        {
-            TestHelper.CreateEmployeeExporter();
-        }
-
-        [TestMethod()]
         public void CreateExcelPackageTest()
         {
-            var exporter = TestHelper.CreateEmployeeExporter()
-                .Ignore(n => n.Phone)
-                .TextFormatFor(n => n.UserName, "** {0} **")
-                .TextFormatFor(n => n.DateOfBirth, "{0:u}");
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
 
-            var excelPackage = exporter.CreateExcelPackage();
-
-            TestHelper.OpenDocumentIfRequired(excelPackage);
+            var excelPackage = EnumerableExporter.Create(data).CreateExcelPackage();
+            Assert.IsTrue(excelPackage.Workbook.Worksheets.Count == 1);
         }
-
+        
         [TestMethod()]
-        public void AddWorksheetToExistingPackage()
+        public void AddWorksheetToExistingPackageTest()
         {
-            var exporter = TestHelper.CreateEmployeeExporter();
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
 
             var excelPackage = TestHelper.FakeAnExistingDocument();
-
-            Console.WriteLine("exporter.AppendToExistingPackage");
-            exporter.AddWorksheetToExistingPackage(excelPackage);
-            TestHelper.OpenDocumentIfRequired(excelPackage);
-
+            EnumerableExporter.Create(data).AddWorksheetToExistingPackage(excelPackage);
             Assert.IsTrue(excelPackage.Workbook.Worksheets.Count == 2);
+            //TestHelper.OpenDocumentIfRequired(excelPackage);
         }
 
         [TestMethod()]
-        public void TextFormatForTest()
+        public void DefaultNumberFormatTest()
         {
-            const string token = "*CUSTOM_FORMAT*";
-            var exporter = TestHelper.CreateEmployeeExporter()
-                .TextFormatFor(n => n.UserName, token + " {0}")
-                .TextFormatFor(n => n.DateOfBirth, "{0:yyyy-MM-dd}");
-
-            var excelPackage = exporter.CreateExcelPackage();
-            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
-
-            //check text format
+            var data = new[]
             {
-                var myCell = excelWorksheet.Cells[2, 1].FlagInfo();
-                myCell.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                Console.WriteLine(myCell.Text);
-                Assert.IsTrue(myCell.Text.StartsWith(token));
-            }
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
 
-            //check date format
+            var excelWorksheet = EnumerableExporter.Create(data)
+                .DefaultNumberFormat(typeof(DateTime), "DATE: yyyy-MM-dd")
+                .DefaultNumberFormat(typeof(double), "0.00 $")
+                .DefaultNumberFormat(typeof(int), "00")
+                .CreateExcelPackage()
+                .Workbook.Worksheets.First();
+            
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Today.ToString("DATE: yyyy-MM-dd")); //DateValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 3].Text == "10.20 $"); //DoubleValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 4].Text == "05"); //IntValue
+        }
+
+        [TestMethod()]
+        public void NumberFormatForTest()
+        {
+            var data = new[]
             {
-                var myCell = excelWorksheet.Cells[2, 6].FlagInfo();
-                myCell.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-                var myDate = DateTime.ParseExact(myCell.Text, "yyyy-MM-dd", null);
-                Console.WriteLine($"[{myCell.Text}] was converted to [{myDate}]");
-            }
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
 
-            TestHelper.OpenDocumentIfRequired(excelPackage);
+            var excelWorksheet = EnumerableExporter.Create(data)
+                .NumberFormatFor(n => n.DateValue, "DATE: yyyy-MM-dd")
+                .NumberFormatFor(n => n.DoubleValue, "0.00 $")
+                .NumberFormatFor(n => n.IntValue, "00")
+                .CreateExcelPackage()
+                .Workbook.Worksheets.First();
+
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Today.ToString("DATE: yyyy-MM-dd")); //DateValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 3].Text == "10.20 $"); //DoubleValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 4].Text == "05"); //IntValue
         }
 
         [TestMethod()]
         public void IgnoreTest()
         {
-            var exporter = TestHelper.CreateEmployeeExporter()
-                .Ignore(n => n.UserName);
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
 
-            var excelPackage = exporter.CreateExcelPackage();
+            var excelWorksheet = EnumerableExporter.Create(data)
+                .Ignore(n => n.TextValue)
+                .CreateExcelPackage()
+                .Workbook.Worksheets.First();
 
-            //check if the UserName column was removed
-            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
-            var myCell = excelWorksheet.Cells[1, 1].FlagInfo();
-            Assert.IsTrue(myCell.Text == "First Name");
-
-            TestHelper.OpenDocumentIfRequired(excelPackage);
+            Assert.IsTrue(excelWorksheet.Cells[1, 1].Text == "Date Value");
         }
 
-        [TestMethod()]
-        public void UseAnonymousEnumerable()
-        {
-            var employees = TestHelper.GetEmployees().Select(n => new
-            {
-                Login = n.UserName,
-                Mail = n.Email
-            });
 
-            var exporter = EnumerableExporter.Create(employees);
+        [TestMethod()]
+        public void TextFormatForTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+
+            const string textFormat = "Prefix: {0}";
+            const string dateFormat = "{0:yyyy-MM-dd HH:mm}";
+            var exporter = EnumerableExporter.Create(data)
+                .TextFormatFor(n => n.TextValue, textFormat)
+                .TextFormatFor(n => n.DateValue, dateFormat);
 
             var excelPackage = exporter.CreateExcelPackage();
-
-            //check if the UserName column was removed
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
-            var myCell = excelWorksheet.Cells[1, 2].FlagInfo();
-            Assert.IsTrue(myCell.Text == "Mail");
 
-            TestHelper.OpenDocumentIfRequired(excelPackage);
+            Assert.IsTrue(excelWorksheet.Cells[2, 1].Text == string.Format(textFormat, data.First().TextValue)); //TextValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == string.Format(dateFormat, data.First().DateValue)); //DateValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Value.ToString() == string.Format(dateFormat, data.First().DateValue)); //DateValue
         }
     }
 }

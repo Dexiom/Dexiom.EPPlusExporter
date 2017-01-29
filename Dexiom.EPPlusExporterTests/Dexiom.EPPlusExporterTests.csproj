@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -67,7 +67,7 @@
     <Compile Include="EnumerableExporterTests.cs" />
     <Compile Include="Extensions\TestExtensions.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="Model\Employee.cs" />
+    <Compile Include="ObjectExporterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

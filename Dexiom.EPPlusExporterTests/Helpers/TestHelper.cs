@@ -7,44 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Bogus;
 using Dexiom.EPPlusExporter;
-using Dexiom.EPPlusExporterTests.Model;
 using OfficeOpenXml;
 
 namespace Dexiom.EPPlusExporterTests.Helpers
 {
     public static class TestHelper
     {
-        public static void OpenDocumentIfRequired(ExcelPackage excelPackage, bool alwaysOpen = false)
+        public static void OpenDocument(ExcelPackage excelPackage)
         {
-#if DEBUG
-            alwaysOpen = true;
-#endif
-            if (alwaysOpen)
-            {
-                Console.WriteLine("Opening document");
+            Console.WriteLine("Opening document");
 
-                Directory.CreateDirectory("temp");
-                var fileInfo = new FileInfo($"temp\\Test_{Guid.NewGuid():N}.xlsx");
-                excelPackage.SaveAs(fileInfo);
-                Process.Start(fileInfo.FullName);
-            }
+            Directory.CreateDirectory("temp");
+            var fileInfo = new FileInfo($"temp\\Test_{Guid.NewGuid():N}.xlsx");
+            excelPackage.SaveAs(fileInfo);
+            Process.Start(fileInfo.FullName);
         }
-
-        public static EnumerableExporter<Employee> CreateEmployeeExporter()
-        {
-            Console.WriteLine("CreateEmployeeExporter");
-
-            return new EnumerableExporter<Employee>(GetEmployees());
-        }
-
-        public static IEnumerable<Employee> GetEmployees()
-        {
-            Console.WriteLine("GetEmployees");
-
-            var faker = new Faker<Employee>().CustomInstantiator(n => new Employee(new Person()));
-            return faker.Generate(1000);
-        }
-
+        
         public static ExcelPackage FakeAnExistingDocument()
         {
             Console.WriteLine("FakeAnExistingDocument");
