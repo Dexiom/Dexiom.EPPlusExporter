@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporter.Extensions;
@@ -92,7 +93,14 @@ namespace Dexiom.EPPlusExporter
 
         protected Dictionary<string, string> NumberFormats { get; set; } = new Dictionary<string, string>();
 
+        protected object GetPropertyValue(PropertyInfo property, object item)
+        {
+            var value = property.GetValue(item);
+            if (value != null && TextFormats.ContainsKey(property.Name))
+                return string.Format(TextFormats[property.Name], value);
 
+            return value;
+        }
         #endregion
     }
 }

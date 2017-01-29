@@ -49,7 +49,7 @@ namespace Dexiom.EPPlusExporter
             var myData = displayedProperties.Select(property => new
             {
                 Property = property,
-                Value = property.GetValue(Data)
+                Value = GetPropertyValue(property, Data)
             });
 
             var iRow = 1;

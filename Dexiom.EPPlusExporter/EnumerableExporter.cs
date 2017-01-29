@@ -106,17 +106,5 @@ namespace Dexiom.EPPlusExporter
         }
 
         #endregion
-
-        #region Private
-
-        private object GetPropertyValue(PropertyInfo property, object item)
-        {
-            var value = property.GetValue(item);
-            if (value != null && TextFormats.ContainsKey(property.Name))
-                return string.Format(TextFormats[property.Name], value);
-
-            return value;
-        }
-        #endregion
     }
 }
