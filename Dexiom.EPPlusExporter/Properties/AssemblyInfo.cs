@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Dexiom.EPPlusExporter")]
 [assembly: AssemblyDescription("A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Consultation Dexiom inc.")]
+[assembly: AssemblyCompany("Dexiom")]
 [assembly: AssemblyProduct("Dexiom.EPPlusExporter")]
 [assembly: AssemblyCopyright("© Consultation Dexiom inc.")]
 [assembly: AssemblyTrademark("")]
