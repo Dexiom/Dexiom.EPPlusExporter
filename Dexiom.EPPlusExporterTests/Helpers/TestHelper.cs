@@ -25,8 +25,6 @@ namespace Dexiom.EPPlusExporterTests.Helpers
         
         public static ExcelPackage FakeAnExistingDocument()
         {
-            Console.WriteLine("FakeAnExistingDocument");
-
             var retVal = new ExcelPackage();
             var worksheet = retVal.Workbook.Worksheets.Add("IAmANormalSheet");
             worksheet.Cells[1, 1].Value = "I am a normal sheet";
