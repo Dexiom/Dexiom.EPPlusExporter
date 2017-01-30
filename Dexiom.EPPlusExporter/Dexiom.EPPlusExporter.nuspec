@@ -6,12 +6,13 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
+    <licenseUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/Docs/logo.png</licenseUrl>
     <licenseUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes></releaseNotes>
-    <copyright>Consultation Dexiom inc. 2016-2017</copyright>
+    <copyright>© Consultation Dexiom inc.</copyright>
     <tags>EPPlus Export Excel XLSX</tags>
   </metadata>
   <files>

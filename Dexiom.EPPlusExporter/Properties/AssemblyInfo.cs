@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Consultation Dexiom inc.")]
 [assembly: AssemblyProduct("Dexiom.EPPlusExporter")]
-[assembly: AssemblyCopyright("Copyright © Dexiom 2016-2017")]
+[assembly: AssemblyCopyright("© Consultation Dexiom inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
