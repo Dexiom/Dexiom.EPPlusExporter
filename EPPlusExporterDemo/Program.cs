@@ -17,8 +17,12 @@ namespace EPPlusExporterDemo
     {
         static void Main(string[] args)
         {
-            ExportSimpleObject();
-            ExportEnumerable();
+            EnumerableDemo.Sample1();
+            EnumerableDemo.Sample2();
+            ObjectDemo.Sample1();
+            ObjectDemo.Sample2();
+            //ExportSimpleObject();
+            //ExportEnumerable();
         }
 
         private static void ExportSimpleObject()
@@ -64,7 +68,7 @@ namespace EPPlusExporterDemo
             SaveAndOpenDocument(excelPackage);
         }
 
-        private static void SaveAndOpenDocument(ExcelPackage excelPackage)
+        public static void SaveAndOpenDocument(ExcelPackage excelPackage)
         {
             Console.WriteLine("Opening document");
             
