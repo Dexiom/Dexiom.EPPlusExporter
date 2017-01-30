@@ -6,7 +6,7 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/Docs/logo.png</licenseUrl>
+    <iconUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/Docs/logo.png</iconUrl>
     <licenseUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
