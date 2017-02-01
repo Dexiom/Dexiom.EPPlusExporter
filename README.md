@@ -3,7 +3,7 @@
 
 Project Description
 -------------------
-A very simple, yet incredibly powerfull library to generate Excel documents with objects, arrays, lists, collections, etc.
+A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.
 
 ### Download & Install
 
