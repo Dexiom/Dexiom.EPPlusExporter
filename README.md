@@ -1,6 +1,16 @@
 # Dexiom.EPPlusExporter
 [![Build status](https://ci.appveyor.com/api/projects/status/pbnru8yvomkpov5u?svg=true)](https://ci.appveyor.com/project/jpare/dexiom-epplusexporter)
 
+| Item |  |
+| --- | --- |
+| **Build** | [![Build status](https://ci.appveyor.com/api/projects/status/pbnru8yvomkpov5u?svg=true)](https://ci.appveyor.com/project/jpare/dexiom-epplusexporter) |
+| **Coverage** | --- |
+| **Distribution** | [![NuGet](https://img.shields.io/nuget/v/Dexiom.EPPlusExporter.svg)](https://www.nuget.org/packages/Dexiom.EPPlusExporter/) |
+| **License** | [![license](https://img.shields.io/github/license/Dexiom/Dexiom.EPPlusExporter.svg)](https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE) |
+| Special thx :sparkling_heart: | [![Dexiom](https://img.shields.io/badge/backed%20by-Dexiom-blue.svg)](http://www.dexiom.com) |
+
+
+
 Project Description
 -------------------
 A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.
