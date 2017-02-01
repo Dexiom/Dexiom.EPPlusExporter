@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
+
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
@@ -21,6 +22,9 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("9a52c50c-f868-4838-8a5e-562a5dda4707")]
+
+//Make internal classes visible from the test project
+[assembly: InternalsVisibleTo("Dexiom.EPPlusExporterTests")]
 
 // Version information for an assembly consists of the following four values:
 //

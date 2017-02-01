@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="EnumerableExporterTests.cs" />
+    <Compile Include="Extensions\MemberInfoExtensionsTests.cs" />
     <Compile Include="Extensions\TestExtensions.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="ObjectExporterTests.cs" />
