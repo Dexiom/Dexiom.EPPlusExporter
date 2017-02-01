@@ -7,8 +7,6 @@
 | **Coverage** | --- |
 | **Distribution** | [![NuGet](https://img.shields.io/nuget/v/Dexiom.EPPlusExporter.svg)](https://www.nuget.org/packages/Dexiom.EPPlusExporter/) |
 | **License** | [![license](https://img.shields.io/github/license/Dexiom/Dexiom.EPPlusExporter.svg)](https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE) |
-| Special thx :sparkling_heart: | [![Dexiom](https://img.shields.io/badge/backed%20by-Dexiom-blue.svg)](http://www.dexiom.com) |
-
 
 
 Project Description
