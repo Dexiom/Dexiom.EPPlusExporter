@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />
     <Compile Include="TableExporter.cs" />
     <Compile Include="Helpers\PropertyName.cs" />
@@ -57,7 +56,6 @@
     <Compile Include="ITableOutput.cs" />
     <Compile Include="ITableOutputCustomization.cs" />
     <Compile Include="Helpers\WorksheetHelper.cs" />
-    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="EnumerableExporter.cs" />
     <Compile Include="ObjectExporter.cs" />

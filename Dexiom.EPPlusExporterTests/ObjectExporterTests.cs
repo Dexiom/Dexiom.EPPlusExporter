@@ -33,6 +33,27 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void WorksheetConfigurationTest()
+        {
+            const string newWorksheetName = "NewSheet";
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+
+            var excelPackage = TestHelper.FakeAnExistingDocument();
+            var eporter = ObjectExporter.Create(data);
+
+            //set properties
+            eporter.WorksheetName = newWorksheetName;
+            eporter.AddWorksheetToExistingPackage(excelPackage);
+
+            //check properties
+            var sheetToCheck = excelPackage.Workbook.Worksheets.Last();
+            Assert.IsTrue(sheetToCheck.Name == newWorksheetName);
+        }
+
+        [TestMethod()]
         public void DefaultNumberFormatTest()
         {
             var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };
@@ -97,6 +118,21 @@ namespace Dexiom.EPPlusExporter.Tests
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == string.Format(textFormat, data.TextValue)); //TextValue
             Assert.IsTrue(excelWorksheet.Cells[3, 2].Text == string.Format(dateFormat, data.DateValue)); //DateValue
             Assert.IsTrue(excelWorksheet.Cells[3, 2].Value.ToString() == string.Format(dateFormat, data.DateValue)); //DateValue
+        }
+
+        [TestMethod()]
+        public void StyleForTest()
+        {
+            var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };
+            
+            const string dateFormat = "yyyy-MM-dd HH:mm";
+            var exporter = ObjectExporter.Create(data)
+                .StyleFor(n => n.DateValue, n => n.Numberformat.Format = dateFormat);
+
+            var excelPackage = exporter.CreateExcelPackage();
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            
+            Assert.IsTrue(excelWorksheet.Cells[3, 2].Text == data.DateValue.ToString(dateFormat)); //DateValue
         }
     }
 }

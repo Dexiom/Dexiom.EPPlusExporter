@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using Dexiom.EPPlusExporterTests.Extensions;
 using Dexiom.EPPlusExporterTests.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
 
 namespace Dexiom.EPPlusExporter.Tests
 {
@@ -41,8 +43,29 @@ namespace Dexiom.EPPlusExporter.Tests
 
             var excelPackage = TestHelper.FakeAnExistingDocument();
             EnumerableExporter.Create(data).AddWorksheetToExistingPackage(excelPackage);
+
             Assert.IsTrue(excelPackage.Workbook.Worksheets.Count == 2);
-            //TestHelper.OpenDocumentIfRequired(excelPackage);
+        }
+
+        [TestMethod()]
+        public void WorksheetConfigurationTest()
+        {
+            const string newWorksheetName = "NewSheet";
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+
+            var excelPackage = TestHelper.FakeAnExistingDocument();
+            var eporter = EnumerableExporter.Create(data);
+
+            //set properties
+            eporter.WorksheetName = newWorksheetName;
+            eporter.AddWorksheetToExistingPackage(excelPackage);
+            
+            //check properties
+            var sheetToCheck = excelPackage.Workbook.Worksheets.Last();
+            Assert.IsTrue(sheetToCheck.Name == newWorksheetName);
         }
 
         [TestMethod()]
@@ -122,6 +145,23 @@ namespace Dexiom.EPPlusExporter.Tests
             Assert.IsTrue(excelWorksheet.Cells[2, 1].Text == string.Format(textFormat, data.First().TextValue)); //TextValue
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == string.Format(dateFormat, data.First().DateValue)); //DateValue
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Value.ToString() == string.Format(dateFormat, data.First().DateValue)); //DateValue
+        }
+
+        [TestMethod()]
+        public void StyleForTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+            
+            const string dateFormat = "yyyy-MM-dd HH:mm";
+            var exporter = EnumerableExporter.Create(data)
+                .StyleFor(n => n.DateValue, n => n.Numberformat.Format = dateFormat);
+
+            var excelPackage = exporter.CreateExcelPackage();
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == data.First().DateValue.ToString(dateFormat)); //DateValue
         }
     }
 }

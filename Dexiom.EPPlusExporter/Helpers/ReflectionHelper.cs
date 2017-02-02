@@ -27,39 +27,39 @@ namespace Dexiom.EPPlusExporter.Helpers
             return splitCamelCase ? SplitCamelCase(property.Name) : property.Name;
         }
 
-        public static object GetPropertyDisplayValue(PropertyInfo property, object item)
-        {
-            var value = property.GetValue(item);
+        //public static object GetPropertyDisplayValue(PropertyInfo property, object item)
+        //{
+        //    var value = property.GetValue(item);
 
-            //check for customization via attribute
-            var displayFormatAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayFormatAttribute>(property, true);
-            if (displayFormatAttribute != null)
-            {
-                //handle NullDisplayText 
-                if (value == null && !string.IsNullOrWhiteSpace(displayFormatAttribute.NullDisplayText))
-                    return displayFormatAttribute.NullDisplayText;
+        //    //check for customization via attribute
+        //    var displayFormatAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayFormatAttribute>(property, true);
+        //    if (displayFormatAttribute != null)
+        //    {
+        //        //handle NullDisplayText 
+        //        if (value == null && !string.IsNullOrWhiteSpace(displayFormatAttribute.NullDisplayText))
+        //            return displayFormatAttribute.NullDisplayText;
 
-                //handle display format
-                if (value != null)
-                    return string.Format(displayFormatAttribute.DataFormatString, value);
-            }
+        //        //handle display format
+        //        if (value != null)
+        //            return string.Format(displayFormatAttribute.DataFormatString, value);
+        //    }
 
-            //value is null, nothing else to do
-            if (value == null)
-                return string.Empty;
+        //    //value is null, nothing else to do
+        //    if (value == null)
+        //        return string.Empty;
 
-            //simple type
-            if (property.PropertyType.IsValueType)
-                return value;
+        //    //simple type
+        //    if (property.PropertyType.IsValueType)
+        //        return value;
 
-            //enumerable
-            var enumerable = (value as IEnumerable<object>);
-            if (enumerable != null)
-                return enumerable.Count(); //just show the count
+        //    //enumerable
+        //    var enumerable = (value as IEnumerable<object>);
+        //    if (enumerable != null)
+        //        return enumerable.Count(); //just show the count
 
-            //well, let's throw the value...
-            return value.ToString();
-        }
+        //    //well, let's throw the value...
+        //    return value.ToString();
+        //}
 
         #region Private
         private static string SplitCamelCase(string text)

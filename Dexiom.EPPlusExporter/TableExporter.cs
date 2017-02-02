@@ -79,19 +79,19 @@ namespace Dexiom.EPPlusExporter
 
 
         #region Protected 
-        protected Dictionary<string, string> TextFormats { get; set; } = new Dictionary<string, string>();
+        protected Dictionary<string, string> TextFormats { get; } = new Dictionary<string, string>();
 
-        protected HashSet<string> IgnoredProperties { get; set; } = new HashSet<string>();
+        protected HashSet<string> IgnoredProperties { get; } = new HashSet<string>();
 
-        protected Dictionary<string, Action<ExcelStyle>> ColumnStyles { get; set; } = new Dictionary<string, Action<ExcelStyle>>();
+        protected Dictionary<string, Action<ExcelStyle>> ColumnStyles { get; } = new Dictionary<string, Action<ExcelStyle>>();
 
-        protected Dictionary<Type, string> DefaultNumberFormats { get; set; } = new Dictionary<Type, string>
+        protected Dictionary<Type, string> DefaultNumberFormats { get; } = new Dictionary<Type, string>
         {
             { typeof(DateTime), "yyyy-MM-dd HH:mm:ss" },
             { typeof(DateTime?), "yyyy-MM-dd HH:mm:ss" }
         };
 
-        protected Dictionary<string, string> NumberFormats { get; set; } = new Dictionary<string, string>();
+        protected Dictionary<string, string> NumberFormats { get; } = new Dictionary<string, string>();
 
         protected object GetPropertyValue(PropertyInfo property, object item)
         {
