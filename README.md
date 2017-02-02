@@ -34,19 +34,6 @@ var excelPackage = exporter.CreateExcelPackage(); //generate the document
 excelPackage.SaveAs(new FileInfo("C:\\example1.xlsx")); //save the document
 ```
 
-## Exporting an Anonymous Enumerable
-
-```csharp
-var employees = TestHelper.GetEmployees().Select(n => new
-{
-	Login = n.UserName,
-	Mail = n.Email
-});
-
-var exporter = EnumerableExporter.Create(employees);
-var excelPackage = exporter.CreateExcelPackage();
-```
-
 ## Quick Customizations (using fluent interface)
 Quick customization can be accomplished by using the fluent interface like this:
 
