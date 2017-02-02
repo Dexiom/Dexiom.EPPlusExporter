@@ -27,11 +27,16 @@ Please review the [Wiki](https://github.com/Dexiom/Dexiom.EPPlusExporter/wiki) p
 
 ## Basic example
 Let's say you want to dump an array or a list of objects to Excel (without any specific formatting).  
-
+This is what you would do:
 ```csharp
-var exporter = EnumerableExporter.Create(employees); //create the exporter
-var excelPackage = exporter.CreateExcelPackage(); //generate the document
-excelPackage.SaveAs(new FileInfo("C:\\example1.xlsx")); //save the document
+//create the exporter
+var exporter = EnumerableExporter.Create(employees);
+
+//generate the document
+var excelPackage = exporter.CreateExcelPackage(); 
+
+//save the document
+excelPackage.SaveAs(new FileInfo("C:\\example1.xlsx")); 
 ```
 
 ## Quick Customizations (using fluent interface)
