@@ -1,4 +1,5 @@
 # Dexiom.EPPlusExporter
+A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.
 
 
 |  |  |
@@ -9,23 +10,19 @@
 | **License** | [![license](https://img.shields.io/github/license/Dexiom/Dexiom.EPPlusExporter.svg)](https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE) |
 
 
-Project Description
--------------------
-A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.
-
-### Download & Install
+## Download & Install
 
 ```
 Install-Package Dexiom.EPPlusExporter
 ```
 
-# Wiki
+## Wiki
 
 Please review the [Wiki](https://github.com/Dexiom/Dexiom.EPPlusExporter/wiki) pages on how to use Dexiom.EPPlusExporter.
 
-# Quick Usage Preview 
+## Quick Usage Preview 
 
-## Basic example
+### Basic example
 Let's say you want to dump an array or a list of objects to Excel (without any specific formatting).  
 This is what you would do:
 ```csharp
@@ -39,7 +36,7 @@ var excelPackage = exporter.CreateExcelPackage();
 excelPackage.SaveAs(new FileInfo("C:\\example1.xlsx")); 
 ```
 
-## Quick Customizations (using fluent interface)
+### Quick Customizations (using fluent interface)
 Quick customization can be accomplished by using the fluent interface like this:
 
 ```csharp
