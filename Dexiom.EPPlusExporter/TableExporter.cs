@@ -23,6 +23,9 @@ namespace Dexiom.EPPlusExporter
         {
             var retVal = new ExcelPackage();
             var excelRange = AddWorksheet(retVal);
+            if (excelRange == null)
+                return null;
+            
             WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
 
             return retVal;
@@ -30,7 +33,13 @@ namespace Dexiom.EPPlusExporter
 
         public ExcelWorksheet AddWorksheetToExistingPackage(ExcelPackage package)
         {
+            if (package == null)
+                throw new ArgumentNullException(nameof(package));
+
             var excelRange = AddWorksheet(package);
+            if (excelRange == null)
+                return null;
+
             WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
 
             return excelRange.Worksheet;
