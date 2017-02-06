@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Dexiom/Dexiom.EPPlusExporter.png?label=ready&title=Ready)](https://waffle.io/Dexiom/Dexiom.EPPlusExporter)
 # Dexiom.EPPlusExporter
 A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.
 
