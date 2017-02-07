@@ -61,3 +61,8 @@ var excelPackage = EnumerableExporter.Create(employees) //new EnumerableExporter
  * **NumberFormatFor** is used to set a specific format (just like you would using Excel)
  * **TextFormatFor** is used to convert a value to text
  * **StyleFor** is used to alter the style for a specific column
+
+## License
+Copyright (c) Consultation Dexiom. All rights reserved.
+
+Licensed under the [MIT](LICENSE.txt) License.
