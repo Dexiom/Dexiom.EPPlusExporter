@@ -68,7 +68,9 @@ namespace Dexiom.EPPlusExporter
                 var iCol = dataFirstCol;
                 foreach (var property in displayedProperties)
                 {
-                    worksheet.Cells[row, iCol].Value = GetPropertyValue(property, item);
+                    var cell = worksheet.Cells[row, iCol];
+                    cell.Value = GetPropertyValue(property, item);
+
                     iCol++;
                 }
                 row++;
@@ -97,6 +99,28 @@ namespace Dexiom.EPPlusExporter
                     if (ColumnStyles.ContainsKey(property.Name))
                         ColumnStyles[property.Name](columnRange.Style);
 
+                    iCol++;
+                }
+            }
+        
+            //apply conditional styles
+            {
+                var iCol = dataFirstCol;
+                foreach (var property in displayedProperties)
+                {
+                    if (!ConditionalStyles.ContainsKey(property.Name))
+                        continue;
+
+                    var conditionalStyle = ConditionalStyles[property.Name];
+
+                    var iRow = dataFirstRow;
+                    foreach (var item in myData)
+                    {
+                        var cell = worksheet.Cells[iRow, iCol];
+                        conditionalStyle(item, cell.Style); //apply style on cell
+                        iRow++;
+                    }
+                    
                     iCol++;
                 }
             }

@@ -72,6 +72,12 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
 
+        public TableExporter<T> ConditionalStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<T, ExcelStyle> setStyle)
+        {
+            ConditionalStyles.AddOrUpdate(PropertyName.For(property), setStyle);
+            return this;
+        }
+
         public TableExporter<T> DefaultNumberFormat(Type type, string numberFormat)
         {
             DefaultNumberFormats.AddOrUpdate(type, numberFormat);
@@ -93,6 +99,8 @@ namespace Dexiom.EPPlusExporter
         protected HashSet<string> IgnoredProperties { get; } = new HashSet<string>();
 
         protected Dictionary<string, Action<ExcelStyle>> ColumnStyles { get; } = new Dictionary<string, Action<ExcelStyle>>();
+
+        protected Dictionary<string, Action<T, ExcelStyle>> ConditionalStyles { get; } = new Dictionary<string, Action<T, ExcelStyle>>();
 
         protected Dictionary<Type, string> DefaultNumberFormats { get; } = new Dictionary<Type, string>
         {
