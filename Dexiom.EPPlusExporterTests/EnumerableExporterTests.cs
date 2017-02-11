@@ -68,6 +68,49 @@ namespace Dexiom.EPPlusExporter.Tests
             // ReSharper disable once ExpressionIsAlwaysNull
             Assert.IsNull(ObjectExporter.Create(data).AddWorksheetToExistingPackage(TestHelper.FakeAnExistingDocument()));
         }
+        
+        [TestMethod()]
+        public void ConfigureTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+
+            var excelPackage = EnumerableExporter.Create(data)
+                .Configure(n => n.IntValue, configuration =>
+                {
+                    configuration.Header.Text = "";
+                })
+                .Configure(n => n.DateValue, configuration =>
+                {
+                    configuration.Header.Text = " ";
+                    configuration.Header.SetStyle = style =>
+                    {
+                        style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                    };
+                    configuration.Content.NumberFormat = "dd-MM-yyyy";
+                    configuration.Content.SetStyle = style =>
+                    {
+                        style.Border.Left.Style = ExcelBorderStyle.Dashed;
+                        style.Border.Right.Style = ExcelBorderStyle.Dashed;
+                    };
+                })
+                .CreateExcelPackage();
+                var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+
+            //TestHelper.OpenDocument(excelPackage);
+
+            //header
+            Assert.IsTrue(excelWorksheet.Cells[1, 2].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
+            Assert.IsTrue(excelWorksheet.Cells[1, 2].Text == " ");
+            Assert.IsTrue(excelWorksheet.Cells[1, 4].Text == "Int Value");
+            
+            //data
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Now.ToString("dd-MM-yyyy"));
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Style.Border.Left.Style == ExcelBorderStyle.Dashed);
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Style.Border.Right.Style == ExcelBorderStyle.Dashed);
+        }
 
         #region Fluent Interface Tests
 

@@ -40,6 +40,7 @@ namespace Dexiom.EPPlusExporter
             var properties = Data.GetType().GetProperties();
             var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
             var displayedProperties = properties.Where(p => !IgnoredProperties.Contains(p.Name)).ToList();
+            var columnConfigurations = GetColumnConfigurations(displayedProperties.Select(n => n.Name));
 
             //Create table header
             worksheet.Cells[1, 1].Value = "Item";
@@ -55,23 +56,26 @@ namespace Dexiom.EPPlusExporter
             var iRow = 1;
             foreach (var item in myData)
             {
+                var colConfig = columnConfigurations[item.Property.Name];
+
                 iRow++;
                 var nameCell = worksheet.Cells[iRow, 1];
                 var valueCell = worksheet.Cells[iRow, 2];
-                nameCell.Value = ReflectionHelper.GetPropertyDisplayName(item.Property);
+                nameCell.Value = string.IsNullOrEmpty(colConfig.Header.Text) ? ReflectionHelper.GetPropertyDisplayName(item.Property) : colConfig.Header.Text;
                 valueCell.Value = item.Value;
-                
+
+
                 //apply default number format
                 if (DefaultNumberFormats.ContainsKey(item.Property.PropertyType))
                     valueCell.Style.Numberformat.Format = DefaultNumberFormats[item.Property.PropertyType];
 
                 //apply number format
-                if (NumberFormats.ContainsKey(item.Property.Name))
-                    valueCell.Style.Numberformat.Format = NumberFormats[item.Property.Name];
+                if (colConfig.Content.NumberFormat != null)
+                    valueCell.Style.Numberformat.Format = colConfig.Content.NumberFormat;
 
                 //apply style
-                if (ColumnStyles.ContainsKey(item.Property.Name))
-                    ColumnStyles[item.Property.Name](valueCell.Style);
+                colConfig.Header.SetStyle(nameCell.Style);
+                colConfig.Content.SetStyle(valueCell.Style);
 
                 //apply conditional styles
                 if (ConditionalStyles.ContainsKey(item.Property.Name))

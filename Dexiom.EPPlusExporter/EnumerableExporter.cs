@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Dexiom.EPPlusExporter.Extensions;
 using Dexiom.EPPlusExporter.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -52,13 +53,18 @@ namespace Dexiom.EPPlusExporter
             var properties = ReflectionHelper.GetBaseTypeOfEnumerable(Data).GetProperties();
             var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
             var displayedProperties = properties.Where(p => !IgnoredProperties.Contains(p.Name)).ToList();
+            var columnConfigurations = GetColumnConfigurations(displayedProperties.Select(n => n.Name));
 
             //Create table header
             {
                 var col = headerFirstCol;
                 foreach (var property in displayedProperties)
                 {
-                    worksheet.Cells[headerFirstRow, col].Value = ReflectionHelper.GetPropertyDisplayName(property);
+                    var colConfig = columnConfigurations[property.Name];
+                    var cell = worksheet.Cells[headerFirstRow, col];
+                    cell.Value = string.IsNullOrEmpty(colConfig.Header.Text) ? ReflectionHelper.GetPropertyDisplayName(property) : colConfig.Header.Text;
+                    colConfig.Header.SetStyle(cell.Style);
+
                     col++;
                 }
             }
@@ -82,11 +88,12 @@ namespace Dexiom.EPPlusExporter
             var dataLastCol = dataFirstCol + displayedProperties.Count - 1;
             var dataLastRow = dataFirstRow + Math.Max(myData.Count, 1) - 1; //make sure to have at least 1 data line (for table format)
 
-            //apply styles
+            //apply configurations
             {
                 var iCol = dataFirstCol;
                 foreach (var property in displayedProperties)
                 {
+                    var colConfig = columnConfigurations[property.Name];
                     var columnRange = worksheet.Cells[dataFirstRow, iCol, dataLastRow, iCol];
 
                     //apply default number format
@@ -94,12 +101,11 @@ namespace Dexiom.EPPlusExporter
                         columnRange.Style.Numberformat.Format = DefaultNumberFormats[property.PropertyType];
 
                     //apply number format
-                    if (NumberFormats.ContainsKey(property.Name))
-                        columnRange.Style.Numberformat.Format = NumberFormats[property.Name];
+                    if (colConfig.Content.NumberFormat != null)
+                        columnRange.Style.Numberformat.Format = colConfig.Content.NumberFormat;
 
                     //apply style
-                    if (ColumnStyles.ContainsKey(property.Name))
-                        ColumnStyles[property.Name](columnRange.Style);
+                    colConfig.Content.SetStyle(columnRange.Style);
 
                     iCol++;
                 }

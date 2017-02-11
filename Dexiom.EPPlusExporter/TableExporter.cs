@@ -53,10 +53,33 @@ namespace Dexiom.EPPlusExporter
         public TableStyles TableStyle { get; set; } = TableStyles.Medium4;
         #endregion
 
+
+        private List<KeyValuePair<string, Action<ColumnConfiguration>>> ColumnConfigurationAlterations { get; } = new List<KeyValuePair<string, Action<ColumnConfiguration>>>();
+
+
         #region ITableOutputCustomization<T>
-        public TableExporter<T> TextFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format)
+
+        public TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> property, Action<ColumnConfiguration> column)
         {
-            TextFormats.AddOrUpdate(PropertyName.For(property), format);
+            ColumnConfigurationAlterations.Add(new KeyValuePair<string, Action<ColumnConfiguration>>(PropertyName.For(property), column));
+            return this;
+        }
+        
+        public TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle)
+        {
+            Configure(property, c => c.Content.SetStyle = setStyle);
+            return this;
+        }
+
+        public TableExporter<T> HeaderStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle)
+        {
+            Configure(property, c => c.Header.SetStyle = setStyle);
+            return this;
+        }
+
+        public TableExporter<T> NumberFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string numberFormat)
+        {
+            Configure(property, c => c.Content.NumberFormat = numberFormat);
             return this;
         }
 
@@ -67,40 +90,31 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
 
-        public TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle)
-        {
-            ColumnStyles.AddOrUpdate(PropertyName.For(property), setStyle);
-            return this;
-        }
-
-        public TableExporter<T> ConditionalStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<T, ExcelStyle> setStyle)
-        {
-            ConditionalStyles.AddOrUpdate(PropertyName.For(property), setStyle);
-            return this;
-        }
-        
         public TableExporter<T> DefaultNumberFormat(Type type, string numberFormat)
         {
             DefaultNumberFormats.AddOrUpdate(type, numberFormat);
             return this;
         }
 
-        public TableExporter<T> NumberFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string numberFormat)
+        public TableExporter<T> TextFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format)
         {
-            NumberFormats.AddOrUpdate(PropertyName.For(property), numberFormat);
+            TextFormats.AddOrUpdate(PropertyName.For(property), format);
             return this;
         }
-
+        
+        public TableExporter<T> ConditionalStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<T, ExcelStyle> setStyle)
+        {
+            ConditionalStyles.AddOrUpdate(PropertyName.For(property), setStyle);
+            return this;
+        }
+        
         #endregion
-
-
-        #region Protected 
+        
+        #region Protected
         protected Dictionary<string, string> TextFormats { get; } = new Dictionary<string, string>();
 
         protected HashSet<string> IgnoredProperties { get; } = new HashSet<string>();
-
-        protected Dictionary<string, Action<ExcelStyle>> ColumnStyles { get; } = new Dictionary<string, Action<ExcelStyle>>();
-
+        
         protected Dictionary<string, Action<T, ExcelStyle>> ConditionalStyles { get; } = new Dictionary<string, Action<T, ExcelStyle>>();
 
         protected Dictionary<Type, string> DefaultNumberFormats { get; } = new Dictionary<Type, string>
@@ -108,9 +122,7 @@ namespace Dexiom.EPPlusExporter
             { typeof(DateTime), "yyyy-MM-dd HH:mm:ss" },
             { typeof(DateTime?), "yyyy-MM-dd HH:mm:ss" }
         };
-
-        protected Dictionary<string, string> NumberFormats { get; } = new Dictionary<string, string>();
-
+        
         protected object GetPropertyValue(PropertyInfo property, object item)
         {
             var value = property.GetValue(item);
@@ -119,6 +131,25 @@ namespace Dexiom.EPPlusExporter
 
             return value;
         }
+
+        protected Dictionary<string, ColumnConfiguration> GetColumnConfigurations(IEnumerable<string> columnNames)
+        {
+            var retVal = new Dictionary<string, ColumnConfiguration>();
+            foreach (var colName in columnNames)
+            {
+                var newConfig = new ColumnConfiguration();
+
+                //apply all the alterations to the column definition
+                var alterations = ColumnConfigurationAlterations.Where(n => n.Key == colName);
+                foreach (var alteration in alterations)
+                    alteration.Value(newConfig);
+
+                retVal.Add(colName, newConfig);
+            }
+
+            return retVal;
+        }
         #endregion
+
     }
 }
