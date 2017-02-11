@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using OfficeOpenXml.Style;
 
-namespace Dexiom.EPPlusExporter
+namespace Dexiom.EPPlusExporter.Interfaces
 {
     public interface ITableOutputCustomization<T> 
         where T : class

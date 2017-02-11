@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporter.Extensions;
 using Dexiom.EPPlusExporter.Helpers;
+using Dexiom.EPPlusExporter.Interfaces;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
