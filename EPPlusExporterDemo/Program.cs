@@ -17,12 +17,12 @@ namespace EPPlusExporterDemo
     {
         static void Main(string[] args)
         {
-            EnumerableDemo.Sample1();
-            EnumerableDemo.Sample2();
-            ObjectDemo.Sample1();
-            ObjectDemo.Sample2();
+            //EnumerableDemo.Sample1();
+            //EnumerableDemo.Sample2();
+            //ObjectDemo.Sample1();
+            //ObjectDemo.Sample2();
             //ExportSimpleObject();
-            //ExportEnumerable();
+            ExportEnumerable();
         }
 
         private static void ExportSimpleObject()
@@ -48,6 +48,15 @@ namespace EPPlusExporterDemo
             var data = faker.Generate(1000);
 
             Console.WriteLine("Exporting Enumerable...");
+            Action<Employee, ExcelStyle> largeFamilyStyle = (employee, style) =>
+            {
+                if (employee.ChildrenCount > 3)
+                {
+                    style.Fill.PatternType = ExcelFillStyle.Solid;
+                    style.Fill.BackgroundColor.SetColor(Color.Orange);
+                }
+            };
+
             var exporter = EnumerableExporter.Create(data)
                 .DefaultNumberFormat(typeof(DateTime), "yyyy-MM-dd")
                 .NumberFormatFor(n => n.DateHired, "dd-MM-yyyy")
@@ -61,7 +70,21 @@ namespace EPPlusExporterDemo
                 {
                     style.Fill.Gradient.Color1.SetColor(Color.Yellow);
                     style.Fill.Gradient.Color2.SetColor(Color.Green);
-                });
+                })
+                .ConditionalStyleFor(n => n.ShoeSize, (employee, style) =>
+                {
+                    style.Fill.PatternType = ExcelFillStyle.Solid;
+                    if (employee.ShoeSize >= 11)
+                        style.Fill.BackgroundColor.SetColor(Color.OrangeRed);
+                    else if (employee.ShoeSize < 8)
+                        style.Fill.BackgroundColor.SetColor(Color.ForestGreen);
+                    else
+                        style.Fill.BackgroundColor.SetColor(Color.Yellow);
+                })
+                .ConditionalStyleFor(n => n.FirstName, largeFamilyStyle)
+                .ConditionalStyleFor(n => n.LastName, largeFamilyStyle)
+                .ConditionalStyleFor(n => n.Phone, largeFamilyStyle)
+                .ConditionalStyleFor(n => n.ChildrenCount, largeFamilyStyle);
 
 
             var excelPackage = exporter.CreateExcelPackage();

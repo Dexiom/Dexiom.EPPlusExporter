@@ -108,19 +108,19 @@ namespace Dexiom.EPPlusExporter
                 var iCol = dataFirstCol;
                 foreach (var property in displayedProperties)
                 {
-                    if (!ConditionalStyles.ContainsKey(property.Name))
-                        continue;
-
-                    var conditionalStyle = ConditionalStyles[property.Name];
-
-                    var iRow = dataFirstRow;
-                    foreach (var item in myData)
+                    if (ConditionalStyles.ContainsKey(property.Name))
                     {
-                        var cell = worksheet.Cells[iRow, iCol];
-                        conditionalStyle(item, cell.Style); //apply style on cell
-                        iRow++;
+                        var conditionalStyle = ConditionalStyles[property.Name];
+
+                        var iRow = dataFirstRow;
+                        foreach (var item in myData)
+                        {
+                            var cell = worksheet.Cells[iRow, iCol];
+                            conditionalStyle(item, cell.Style); //apply style on cell
+                            iRow++;
+                        }
                     }
-                    
+
                     iCol++;
                 }
             }

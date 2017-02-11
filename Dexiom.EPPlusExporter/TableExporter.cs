@@ -77,7 +77,7 @@ namespace Dexiom.EPPlusExporter
             ConditionalStyles.AddOrUpdate(PropertyName.For(property), setStyle);
             return this;
         }
-
+        
         public TableExporter<T> DefaultNumberFormat(Type type, string numberFormat)
         {
             DefaultNumberFormats.AddOrUpdate(type, numberFormat);
