@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +26,25 @@ namespace Dexiom.EPPlusExporter.Helpers
 
             //well, no attribue found, let's just take that property's name then...
             return splitCamelCase ? SplitCamelCase(property.Name) : property.Name;
+        }
+
+        public static Type GetBaseTypeOfEnumerable(IEnumerable enumerable)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException(nameof(enumerable));
+
+            var genericEnumerableInterface = enumerable
+                .GetType()
+                .GetInterfaces()
+                .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+
+            if (genericEnumerableInterface == null)
+                throw new ArgumentException("IEnumerable<T> is not implemented", nameof(enumerable));
+
+            var elementType = genericEnumerableInterface.GetGenericArguments()[0];
+            return elementType.IsGenericType && elementType.GetGenericTypeDefinition() == typeof(Nullable<>)
+                ? elementType.GetGenericArguments()[0]
+                : elementType;
         }
 
         //public static object GetPropertyDisplayValue(PropertyInfo property, object item)

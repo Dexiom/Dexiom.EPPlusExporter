@@ -34,6 +34,17 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void ExportNullTest()
+        {
+            IList<Tuple<string, int, bool>> data = null;
+
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(ObjectExporter.Create(data).CreateExcelPackage());
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(ObjectExporter.Create(data).AddWorksheetToExistingPackage(TestHelper.FakeAnExistingDocument()));
+        }
+
+        [TestMethod()]
         public void WorksheetConfigurationTest()
         {
             const string newWorksheetName = "NewSheet";

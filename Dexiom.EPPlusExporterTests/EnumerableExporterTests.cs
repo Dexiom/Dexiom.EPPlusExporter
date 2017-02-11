@@ -48,6 +48,30 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void ExportEmptyEnumerableTest()
+        {
+            var data = Enumerable.Empty<Tuple<string, int, bool>>();
+
+            var excelPackage = EnumerableExporter.Create(data).CreateExcelPackage();
+            //TestHelper.OpenDocument(excelPackage);
+
+            Assert.IsNotNull(excelPackage);
+        }
+
+        [TestMethod()]
+        public void ExportNullTest()
+        {
+            IList<Tuple<string, int, bool>> data = null;
+
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(EnumerableExporter.Create(data).CreateExcelPackage());
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(ObjectExporter.Create(data).AddWorksheetToExistingPackage(TestHelper.FakeAnExistingDocument()));
+        }
+
+        #region Fluent Interface Tests
+
+        [TestMethod()]
         public void WorksheetConfigurationTest()
         {
             const string newWorksheetName = "NewSheet";
@@ -191,5 +215,7 @@ namespace Dexiom.EPPlusExporter.Tests
             Assert.IsTrue(excelWorksheet.Cells[3, 3].Style.Border.Bottom.Style == ExcelBorderStyle.None);
             Assert.IsTrue(excelWorksheet.Cells[4, 3].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
         }
+
+        #endregion
     }
 }
