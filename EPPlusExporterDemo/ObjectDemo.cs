@@ -25,7 +25,8 @@ namespace EPPlusExporterDemo
 
             var exporter = ObjectExporter.Create(data)
                 .TextFormatFor(n => n.TextValue, "Prefix: {0}")
-                .NumberFormatFor(n => n.DateValue, "yyyy-MM-dd")
+                .NumberFormatFor(n => n.DateValue, "dd-MM-yyyy")
+                .Configure(n => n.DateValue, configuration => configuration.Header.Text = "MyDate")
                 .DefaultNumberFormat(typeof(double), "0.00 $")
                 .Ignore(n => n.IntValue);
 

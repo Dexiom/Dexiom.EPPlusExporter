@@ -32,7 +32,7 @@ namespace Dexiom.EPPlusExporter.Tests
             var sheetToCheck = excelPackage.Workbook.Worksheets.Last();
             Assert.IsTrue(sheetToCheck.Tables[tableName].TableStyle == exporter.TableStyle);
         }
-        
+
         [TestMethod()]
         public void AddWorksheetToNullPackageTest()
         {

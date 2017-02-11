@@ -45,6 +45,46 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void ConfigureTest()
+        {
+            var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };
+            
+            var excelPackage = ObjectExporter.Create(data)
+                .Configure(n => n.IntValue, configuration =>
+                {
+                    configuration.Header.Text = "";
+                })
+                .Configure(n => n.DateValue, configuration =>
+                {
+                    configuration.Header.Text = " ";
+                    configuration.Header.SetStyle = style =>
+                    {
+                        style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                    };
+                    configuration.Content.NumberFormat = "dd-MM-yyyy";
+                    configuration.Content.SetStyle = style =>
+                    {
+                        style.Border.Left.Style = ExcelBorderStyle.Dashed;
+                        style.Border.Right.Style = ExcelBorderStyle.Dashed;
+                    };
+                })
+                .CreateExcelPackage();
+
+            //TestHelper.OpenDocument(excelPackage);
+
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            //header
+            Assert.IsTrue(excelWorksheet.Cells[3, 1].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
+            Assert.IsTrue(excelWorksheet.Cells[3, 1].Text == " ");
+            Assert.IsTrue(excelWorksheet.Cells[5, 1].Text == "Int Value");
+
+            //data
+            Assert.IsTrue(excelWorksheet.Cells[3, 2].Text == DateTime.Now.ToString("dd-MM-yyyy"));
+            Assert.IsTrue(excelWorksheet.Cells[3, 2].Style.Border.Left.Style == ExcelBorderStyle.Dashed);
+            Assert.IsTrue(excelWorksheet.Cells[3, 2].Style.Border.Right.Style == ExcelBorderStyle.Dashed);
+        }
+
+        [TestMethod()]
         public void WorksheetConfigurationTest()
         {
             const string newWorksheetName = "NewSheet";
