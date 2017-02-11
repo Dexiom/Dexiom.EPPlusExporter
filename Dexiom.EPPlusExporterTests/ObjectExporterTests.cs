@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporterTests.Helpers;
+using OfficeOpenXml.Style;
 
 namespace Dexiom.EPPlusExporter.Tests
 {
@@ -30,6 +31,17 @@ namespace Dexiom.EPPlusExporter.Tests
             ObjectExporter.Create(data).AddWorksheetToExistingPackage(excelPackage);
             Assert.IsTrue(excelPackage.Workbook.Worksheets.Count == 2);
             //TestHelper.OpenDocumentIfRequired(excelPackage);
+        }
+
+        [TestMethod()]
+        public void ExportNullTest()
+        {
+            IList<Tuple<string, int, bool>> data = null;
+
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(ObjectExporter.Create(data).CreateExcelPackage());
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(ObjectExporter.Create(data).AddWorksheetToExistingPackage(TestHelper.FakeAnExistingDocument()));
         }
 
         [TestMethod()]
@@ -133,6 +145,43 @@ namespace Dexiom.EPPlusExporter.Tests
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
             
             Assert.IsTrue(excelWorksheet.Cells[3, 2].Text == data.DateValue.ToString(dateFormat)); //DateValue
+        }
+
+        [TestMethod()]
+        public void ConditionalStyleForTest()
+        {
+            var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };
+
+            var exporter = ObjectExporter.Create(data)
+                .ConditionalStyleFor(n => n.DateValue, (entry, style) =>
+                {
+                    if (entry.DoubleValue < 1)
+                    {
+                        style.Border.Bottom.Style = ExcelBorderStyle.Dashed;
+                    }
+                })
+                .ConditionalStyleFor(n => n.DoubleValue, (entry, style) =>
+                {
+                    if (entry.DoubleValue > 1)
+                    {
+                        style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                    }
+                })
+                .ConditionalStyleFor(n => n.IntValue, (entry, style) =>
+                {
+                    if (entry.DoubleValue > 1)
+                    {
+                        style.Border.Bottom.Style = ExcelBorderStyle.Dashed;
+                    }
+                });
+
+            var excelPackage = exporter.CreateExcelPackage();
+            //TestHelper.OpenDocument(excelPackage);
+
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            Assert.IsTrue(excelWorksheet.Cells[3, 1].Style.Border.Bottom.Style == ExcelBorderStyle.None);
+            Assert.IsTrue(excelWorksheet.Cells[4, 1].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
+            Assert.IsTrue(excelWorksheet.Cells[5, 2].Style.Border.Bottom.Style == ExcelBorderStyle.Dashed);
         }
     }
 }

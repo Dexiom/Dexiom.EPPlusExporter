@@ -72,6 +72,10 @@ namespace Dexiom.EPPlusExporter
                 //apply style
                 if (ColumnStyles.ContainsKey(item.Property.Name))
                     ColumnStyles[item.Property.Name](valueCell.Style);
+
+                //apply conditional styles
+                if (ConditionalStyles.ContainsKey(item.Property.Name))
+                    ConditionalStyles[item.Property.Name](Data, worksheet.Cells[iRow, 1, iRow, 2].Style);
             }
 
             return worksheet.Cells[1, 1, iRow, 2];

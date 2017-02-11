@@ -48,6 +48,30 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void ExportEmptyEnumerableTest()
+        {
+            var data = Enumerable.Empty<Tuple<string, int, bool>>();
+
+            var excelPackage = EnumerableExporter.Create(data).CreateExcelPackage();
+            //TestHelper.OpenDocument(excelPackage);
+
+            Assert.IsNotNull(excelPackage);
+        }
+
+        [TestMethod()]
+        public void ExportNullTest()
+        {
+            IList<Tuple<string, int, bool>> data = null;
+
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(EnumerableExporter.Create(data).CreateExcelPackage());
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Assert.IsNull(ObjectExporter.Create(data).AddWorksheetToExistingPackage(TestHelper.FakeAnExistingDocument()));
+        }
+
+        #region Fluent Interface Tests
+
+        [TestMethod()]
         public void WorksheetConfigurationTest()
         {
             const string newWorksheetName = "NewSheet";
@@ -163,5 +187,35 @@ namespace Dexiom.EPPlusExporter.Tests
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == data.First().DateValue.ToString(dateFormat)); //DateValue
         }
+
+        [TestMethod()]
+        public void ConditionalStyleForTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "SomeText0", DateValue = DateTime.Now, DoubleValue = 0, IntValue = 5},
+                new { TextValue = "SomeText1", DateValue = DateTime.Now, DoubleValue = 1, IntValue = 5},
+                new { TextValue = "SomeText2", DateValue = DateTime.Now, DoubleValue = 2, IntValue = 5},
+                new { TextValue = "SomeText3", DateValue = DateTime.Now, DoubleValue = 3, IntValue = 5}
+            };
+
+            var exporter = EnumerableExporter.Create(data)
+                .ConditionalStyleFor(n => n.DoubleValue, (entry, style) =>
+                {
+                    if (entry.DoubleValue > 1)
+                    {
+                        style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                    }
+                });
+
+            var excelPackage = exporter.CreateExcelPackage();
+            //TestHelper.OpenDocument(excelPackage);
+
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            Assert.IsTrue(excelWorksheet.Cells[3, 3].Style.Border.Bottom.Style == ExcelBorderStyle.None);
+            Assert.IsTrue(excelWorksheet.Cells[4, 3].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
+        }
+
+        #endregion
     }
 }
