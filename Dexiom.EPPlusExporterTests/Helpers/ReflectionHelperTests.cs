@@ -24,6 +24,8 @@ namespace Dexiom.EPPlusExporter.Helpers.Tests
             [DisplayName("AnotherProp Name")]
             public string AnotherProp { get; set; }
 
+            public string MyCoolProp { get; set; }
+
             public IEnumerator GetEnumerator()
             {
                 throw new NotImplementedException();
@@ -37,6 +39,8 @@ namespace Dexiom.EPPlusExporter.Helpers.Tests
             var myType = typeof(WeirdType);
             Assert.IsTrue(ReflectionHelper.GetPropertyDisplayName(myType.GetMember("SomeProp").First()) == "SomeProp Name");
             Assert.IsTrue(ReflectionHelper.GetPropertyDisplayName(myType.GetMember("AnotherProp").First()) == "AnotherProp Name");
+            Assert.IsTrue(ReflectionHelper.GetPropertyDisplayName(myType.GetMember("MyCoolProp").First()) == "My Cool Prop");
+            Assert.IsTrue(ReflectionHelper.GetPropertyDisplayName(myType.GetMember("MyCoolProp").First(), false) == "MyCoolProp");
         }
 
         [TestMethod()]
