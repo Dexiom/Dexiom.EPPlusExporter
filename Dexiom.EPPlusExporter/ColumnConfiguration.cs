@@ -10,7 +10,7 @@ namespace Dexiom.EPPlusExporter
 {
     public class ColumnConfiguration
     {
-        public ColumnHeaderConfiguration Header { get; set; } = new ColumnHeaderConfiguration();
-        public ColumnContentConfiguration Content { get; set; } = new ColumnContentConfiguration();
+        public ColumnHeaderConfiguration Header { get; } = new ColumnHeaderConfiguration();
+        public ColumnContentConfiguration Content { get; } = new ColumnContentConfiguration();
     }
 }

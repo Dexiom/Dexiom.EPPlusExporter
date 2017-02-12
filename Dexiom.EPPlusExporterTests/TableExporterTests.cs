@@ -3,10 +3,12 @@ using Dexiom.EPPlusExporter;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporterTests.Helpers;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 
 namespace Dexiom.EPPlusExporter.Tests
@@ -50,6 +52,34 @@ namespace Dexiom.EPPlusExporter.Tests
             {
                 Assert.IsTrue(ex.ParamName == "package");
             }
+        }
+
+        [TestMethod()]
+        public void ConfigureTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+
+            var excelPackage = EnumerableExporter.Create(data)
+                .CustomizeTable(range =>
+                {
+                    var newRange = range.Worksheet.Cells[range.End.Row, range.Start.Column, range.End.Row, range.End.Column];
+                    newRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    newRange.Style.Fill.BackgroundColor.SetColor(Color.HotPink);
+                })
+                .CreateExcelPackage();
+
+            //TestHelper.OpenDocument(excelPackage);
+
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+
+            //header
+            Assert.IsTrue(excelWorksheet.Cells[1, 1].Style.Fill.BackgroundColor.Rgb != "FFFF69B4");
+
+            //data
+            Assert.IsTrue(excelWorksheet.Cells[2, 1].Style.Fill.BackgroundColor.Rgb == "FFFF69B4");
         }
     }
 }

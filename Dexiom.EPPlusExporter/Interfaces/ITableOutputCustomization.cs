@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
 namespace Dexiom.EPPlusExporter.Interfaces
@@ -8,6 +9,9 @@ namespace Dexiom.EPPlusExporter.Interfaces
         where T : class
     {
         TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> property, Action<ColumnConfiguration> column);
+        
+        TableExporter<T> CustomizeTable(Action<ExcelRange> applyCustomization);
+        
 
         #region Shorthands for configure
         TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle);

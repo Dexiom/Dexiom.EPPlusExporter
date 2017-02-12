@@ -96,20 +96,30 @@ namespace Dexiom.EPPlusExporter.Tests
                         style.Border.Right.Style = ExcelBorderStyle.Dashed;
                     };
                 })
+                .CustomizeTable(range =>
+                {
+                    var newRange = range.Worksheet.Cells[range.End.Row, range.Start.Column, range.End.Row, range.End.Column];
+                    newRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    newRange.Style.Fill.BackgroundColor.SetColor(Color.HotPink);
+                })
                 .CreateExcelPackage();
-                var excelWorksheet = excelPackage.Workbook.Worksheets.First();
 
             //TestHelper.OpenDocument(excelPackage);
 
+
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            
             //header
             Assert.IsTrue(excelWorksheet.Cells[1, 2].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
             Assert.IsTrue(excelWorksheet.Cells[1, 2].Text == " ");
             Assert.IsTrue(excelWorksheet.Cells[1, 4].Text == "Int Value");
-            
+            Assert.IsTrue(excelWorksheet.Cells[1, 1].Style.Fill.BackgroundColor.Rgb != "FFFF69B4");
+
             //data
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Now.ToString("dd-MM-yyyy"));
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Style.Border.Left.Style == ExcelBorderStyle.Dashed);
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Style.Border.Right.Style == ExcelBorderStyle.Dashed);
+            Assert.IsTrue(excelWorksheet.Cells[2, 1].Style.Fill.BackgroundColor.Rgb == "FFFF69B4");
         }
 
         #region Fluent Interface Tests

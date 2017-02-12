@@ -17,7 +17,12 @@ namespace Dexiom.EPPlusExporter
     public abstract class TableExporter<T> : IExporter, ITableOutput, ITableOutputCustomization<T>
         where T : class
     {
+        private readonly List<KeyValuePair<string, Action<ColumnConfiguration>>> _columnAlterations = new List<KeyValuePair<string, Action<ColumnConfiguration>>>();
+        private readonly List<Action<ExcelRange>> _tableCustomizations = new List<Action<ExcelRange>>();
+
+        #region Abstract
         protected abstract ExcelRange AddWorksheet(ExcelPackage package);
+        #endregion
 
         #region Public Functions
         public ExcelPackage CreateExcelPackage()
@@ -28,6 +33,10 @@ namespace Dexiom.EPPlusExporter
                 return null;
             
             WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
+
+            //apply table customizations
+            foreach (var tableCustomization in _tableCustomizations)
+                tableCustomization(excelRange);
 
             return retVal;
         }
@@ -43,28 +52,36 @@ namespace Dexiom.EPPlusExporter
 
             WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
 
+            //apply table customizations
+            foreach (var tableCustomization in _tableCustomizations)
+                tableCustomization(excelRange);
+
             return excelRange.Worksheet;
         }
         #endregion
 
         #region ITableOutput
+
         public string WorksheetName { get; set; } = "Data";
 
         public TableStyles TableStyle { get; set; } = TableStyles.Medium4;
+
         #endregion
-
-
-        private List<KeyValuePair<string, Action<ColumnConfiguration>>> ColumnConfigurationAlterations { get; } = new List<KeyValuePair<string, Action<ColumnConfiguration>>>();
-
-
+        
         #region ITableOutputCustomization<T>
 
         public TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> property, Action<ColumnConfiguration> column)
         {
-            ColumnConfigurationAlterations.Add(new KeyValuePair<string, Action<ColumnConfiguration>>(PropertyName.For(property), column));
+            _columnAlterations.Add(new KeyValuePair<string, Action<ColumnConfiguration>>(PropertyName.For(property), column));
             return this;
         }
         
+        public TableExporter<T> CustomizeTable(Action<ExcelRange> applyCustomization)
+        {
+            _tableCustomizations.Add(applyCustomization);
+            return this;
+        }
+
         public TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle)
         {
             Configure(property, c => c.Content.SetStyle = setStyle);
@@ -140,7 +157,7 @@ namespace Dexiom.EPPlusExporter
                 var newConfig = new ColumnConfiguration();
 
                 //apply all the alterations to the column definition
-                var alterations = ColumnConfigurationAlterations.Where(n => n.Key == colName);
+                var alterations = _columnAlterations.Where(n => n.Key == colName);
                 foreach (var alteration in alterations)
                     alteration.Value(newConfig);
 
@@ -150,6 +167,6 @@ namespace Dexiom.EPPlusExporter
             return retVal;
         }
         #endregion
-
+        
     }
 }
