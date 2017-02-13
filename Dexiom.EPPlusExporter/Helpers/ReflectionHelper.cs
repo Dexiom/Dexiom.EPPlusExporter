@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,6 +29,7 @@ namespace Dexiom.EPPlusExporter.Helpers
             return splitCamelCase ? SplitCamelCase(property.Name) : property.Name;
         }
 
+
         public static Type GetBaseTypeOfEnumerable(IEnumerable enumerable)
         {
             if (enumerable == null)
@@ -46,41 +48,7 @@ namespace Dexiom.EPPlusExporter.Helpers
                 ? elementType.GetGenericArguments()[0]
                 : elementType;
         }
-
-        //public static object GetPropertyDisplayValue(PropertyInfo property, object item)
-        //{
-        //    var value = property.GetValue(item);
-
-        //    //check for customization via attribute
-        //    var displayFormatAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayFormatAttribute>(property, true);
-        //    if (displayFormatAttribute != null)
-        //    {
-        //        //handle NullDisplayText 
-        //        if (value == null && !string.IsNullOrWhiteSpace(displayFormatAttribute.NullDisplayText))
-        //            return displayFormatAttribute.NullDisplayText;
-
-        //        //handle display format
-        //        if (value != null)
-        //            return string.Format(displayFormatAttribute.DataFormatString, value);
-        //    }
-
-        //    //value is null, nothing else to do
-        //    if (value == null)
-        //        return string.Empty;
-
-        //    //simple type
-        //    if (property.PropertyType.IsValueType)
-        //        return value;
-
-        //    //enumerable
-        //    var enumerable = (value as IEnumerable<object>);
-        //    if (enumerable != null)
-        //        return enumerable.Count(); //just show the count
-
-        //    //well, let's throw the value...
-        //    return value.ToString();
-        //}
-
+        
         #region Private
         private static string SplitCamelCase(string text)
         {

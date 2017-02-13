@@ -51,6 +51,7 @@
     <Compile Include="ColumnContentConfiguration.cs" />
     <Compile Include="ColumnHeaderConfiguration.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />
+    <Compile Include="Helpers\PropertyNames.cs" />
     <Compile Include="TableExporter.cs" />
     <Compile Include="Helpers\PropertyName.cs" />
     <Compile Include="Helpers\ReflectionHelper.cs" />

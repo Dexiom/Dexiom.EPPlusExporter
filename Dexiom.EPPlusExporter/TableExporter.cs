@@ -72,7 +72,9 @@ namespace Dexiom.EPPlusExporter
 
         public TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> property, Action<ColumnConfiguration> column)
         {
-            _columnAlterations.Add(new KeyValuePair<string, Action<ColumnConfiguration>>(PropertyName.For(property), column));
+            foreach (var propName in PropertyNames.For(property))
+                _columnAlterations.Add(new KeyValuePair<string, Action<ColumnConfiguration>>(propName, column));
+
             return this;
         }
         
@@ -102,8 +104,9 @@ namespace Dexiom.EPPlusExporter
 
         public TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property)
         {
-            var propertyName = PropertyName.For(property);
-            IgnoredProperties.Add(propertyName);
+            foreach (var propName in PropertyNames.For(property))
+                IgnoredProperties.Add(propName);
+
             return this;
         }
 
@@ -115,13 +118,17 @@ namespace Dexiom.EPPlusExporter
 
         public TableExporter<T> TextFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format)
         {
-            TextFormats.AddOrUpdate(PropertyName.For(property), format);
+            foreach (var propName in PropertyNames.For(property))
+                TextFormats.AddOrUpdate(propName, format);
+
             return this;
         }
         
         public TableExporter<T> ConditionalStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<T, ExcelStyle> setStyle)
         {
-            ConditionalStyles.AddOrUpdate(PropertyName.For(property), setStyle);
+            foreach (var propName in PropertyNames.For(property))
+                ConditionalStyles.AddOrUpdate(propName, setStyle);
+
             return this;
         }
         

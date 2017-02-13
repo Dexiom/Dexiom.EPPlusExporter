@@ -67,6 +67,7 @@
     <Compile Include="EnumerableExporterTests.cs" />
     <Compile Include="Extensions\MemberInfoExtensionsTests.cs" />
     <Compile Include="Extensions\TestExtensions.cs" />
+    <Compile Include="Helpers\PropertyNamesTests.cs" />
     <Compile Include="Helpers\PropertyNameTests.cs" />
     <Compile Include="Helpers\ReflectionHelperTests.cs" />
     <Compile Include="Helpers\TestHelper.cs" />

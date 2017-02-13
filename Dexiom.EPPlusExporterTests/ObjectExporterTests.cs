@@ -188,6 +188,24 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void HeaderStyleForTest()
+        {
+            var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };
+
+            var exporter = ObjectExporter.Create(data)
+                .HeaderStyleFor(n => new { n.DateValue, n.DoubleValue, n.IntValue },
+                style => style.Border.Right.Style = ExcelBorderStyle.Thick);
+
+            var excelPackage = exporter.CreateExcelPackage();
+            //TestHelper.OpenDocument(excelPackage);
+
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            Assert.IsTrue(excelWorksheet.Cells[3, 1].Style.Border.Right.Style == ExcelBorderStyle.Thick);
+            Assert.IsTrue(excelWorksheet.Cells[4, 1].Style.Border.Right.Style == ExcelBorderStyle.Thick);
+            Assert.IsTrue(excelWorksheet.Cells[5, 1].Style.Border.Right.Style == ExcelBorderStyle.Thick);
+        }
+
+        [TestMethod()]
         public void ConditionalStyleForTest()
         {
             var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };

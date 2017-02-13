@@ -16,7 +16,9 @@ namespace Dexiom.EPPlusExporter.Helpers.Tests
         [TestMethod()]
         public void ForTest()
         {
-            Assert.IsTrue(PropertyName.For(() => new Dictionary<string, int>().Keys) == "Keys");
+            Assert.IsTrue(PropertyName.For(() => new Dictionary<string, int>().Keys) == "Keys"); //UnaryExpression
+
+            Assert.IsTrue(PropertyName.For<Tuple<string, int, double>>(n => n.Item2) == "Item2"); //MemberExpression
         }
     }
 }
