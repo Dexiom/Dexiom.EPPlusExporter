@@ -32,7 +32,7 @@ namespace Dexiom.EPPlusExporter
             if (excelRange == null)
                 return null;
             
-            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
+            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName, AutoFitColumns);
 
             //apply table customizations
             foreach (var tableCustomization in _tableCustomizations)
@@ -50,7 +50,7 @@ namespace Dexiom.EPPlusExporter
             if (excelRange == null)
                 return null;
 
-            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName);
+            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName, AutoFitColumns);
 
             //apply table customizations
             foreach (var tableCustomization in _tableCustomizations)
@@ -60,14 +60,6 @@ namespace Dexiom.EPPlusExporter
         }
         #endregion
 
-        #region ITableOutput
-
-        public string WorksheetName { get; set; } = "Data";
-
-        public TableStyles TableStyle { get; set; } = TableStyles.None;
-
-        #endregion
-        
         #region ITableOutputCustomization<T>
 
         public TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> property, Action<ColumnConfiguration> column)
@@ -174,6 +166,16 @@ namespace Dexiom.EPPlusExporter
             return retVal;
         }
         #endregion
-        
+
+        #region Properties
+
+        public string WorksheetName { get; set; } = "Data";
+
+        public TableStyles TableStyle { get; set; } = TableStyles.None;
+
+        public bool AutoFitColumns { get; set; } = true;
+
+        #endregion
+
     }
 }

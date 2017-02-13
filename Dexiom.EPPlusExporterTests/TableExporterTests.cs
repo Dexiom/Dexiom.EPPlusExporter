@@ -81,5 +81,40 @@ namespace Dexiom.EPPlusExporter.Tests
             //data
             Assert.IsTrue(excelWorksheet.Cells[2, 1].Style.Fill.BackgroundColor.Rgb == "FFFF69B4");
         }
+
+        [TestMethod()]
+        public void AutoFitColumnsTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "The quick brown fox jumps over the lazy dog", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+            
+            {
+                var exporter = EnumerableExporter.Create(data, TableStyles.None);
+                exporter.AutoFitColumns = false;
+
+                var excelPackage = exporter.CreateExcelPackage();
+                TestHelper.OpenDocument(excelPackage);
+
+                var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+
+                //The two first columns should have the same size
+                Assert.IsTrue(Math.Abs(excelWorksheet.Column(1).Width - excelWorksheet.Column(2).Width) < 0.001);
+            }
+
+            {
+                var exporter = EnumerableExporter.Create(data, TableStyles.None);
+                exporter.AutoFitColumns = true;
+
+                var excelPackage = exporter.CreateExcelPackage();
+                TestHelper.OpenDocument(excelPackage);
+
+                var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+
+                //The two first columns should have the same size
+                Assert.IsTrue(Math.Abs(excelWorksheet.Column(1).Width - excelWorksheet.Column(2).Width) > 0.001);
+            }
+        }
     }
 }
