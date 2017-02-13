@@ -23,6 +23,8 @@ namespace Dexiom.EPPlusExporter.Helpers.Tests
             var myPropNames = PropertyNames.For<Tuple<string, int, double>>(n => new { n.Item1, n.Item3 }); //NewExpression
             Assert.IsTrue(myPropNames[0] == "Item1");
             Assert.IsTrue(myPropNames[1] == "Item3");
+            
+            Assert.IsTrue(PropertyNames.For<Tuple<string, int, double>>(n => new DateTime()).Length == 0); //Incorrect Expresssion
         }
     }
 }

@@ -42,7 +42,16 @@ namespace Dexiom.EPPlusExporter.Tests
             };
 
             var excelPackage = TestHelper.FakeAnExistingDocument();
-            EnumerableExporter.Create(data).AppendToExcelPackage(excelPackage);
+            EnumerableExporter.Create(data)
+                .CustomizeTable(range =>
+                {
+                    var newRange = range.Worksheet.Cells[range.End.Row, range.Start.Column, range.End.Row, range.End.Column];
+                    newRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    newRange.Style.Fill.BackgroundColor.SetColor(Color.HotPink);
+                })
+                .AppendToExcelPackage(excelPackage);
+
+            //TestHelper.OpenDocument(excelPackage);
 
             Assert.IsTrue(excelPackage.Workbook.Worksheets.Count == 2);
         }

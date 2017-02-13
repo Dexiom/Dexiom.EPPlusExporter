@@ -32,10 +32,8 @@ namespace Dexiom.EPPlusExporter.Helpers
 
         public static IEnumerable<MemberInfo> GetMemberInfos(Expression expression)
         {
-            if (expression == null || expression is ParameterExpression)
-                return Enumerable.Empty<MemberInfo>();
-
-            //most common cases (arguments passed like this: () => MyObject.MyProp1 or n => n.Prop1)
+            //UnaryExpression: () => MyObject.MyProp1
+            //MemberExpression: n => n.Prop1
             MemberExpression memberExpression;
             var unary = expression as UnaryExpression;
             if (unary != null)
@@ -46,7 +44,7 @@ namespace Dexiom.EPPlusExporter.Helpers
             if (memberExpression != null)
                 return new[] { memberExpression.Member };
 
-            //arguments passed like this: n => new { n.Prop1, n.Prop2 }
+            //NewExpression: n => new { n.Prop1, n.Prop2 }
             var newExpression = expression as NewExpression;
             if (newExpression != null)
             {
