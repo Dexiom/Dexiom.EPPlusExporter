@@ -64,7 +64,7 @@ namespace Dexiom.EPPlusExporter
 
         public string WorksheetName { get; set; } = "Data";
 
-        public TableStyles TableStyle { get; set; } = TableStyles.Medium4;
+        public TableStyles TableStyle { get; set; } = TableStyles.None;
 
         #endregion
         

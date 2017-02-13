@@ -14,7 +14,7 @@ namespace Dexiom.EPPlusExporter
     #region Create Method (using type inference)
     public class ObjectExporter
     {
-        public static ObjectExporter<T> Create<T>(T data) where T : class => new ObjectExporter<T>(data);
+        public static ObjectExporter<T> Create<T>(T data, TableStyles tableStyles = TableStyles.Medium4) where T : class => new ObjectExporter<T>(data) { TableStyle = tableStyles };
     }
     #endregion
 

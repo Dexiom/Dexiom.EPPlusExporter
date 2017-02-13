@@ -257,10 +257,10 @@ namespace Dexiom.EPPlusExporter.Tests
             {
                 new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
             };
-
+    
             var exporter = EnumerableExporter.Create(data)
                 .HeaderStyleFor(n => new { n.DateValue, n.DoubleValue, n.IntValue }, 
-                style => style.Border.Bottom.Style = ExcelBorderStyle.Thick);
+                    style => style.Border.Bottom.Style = ExcelBorderStyle.Thick);
 
             var excelPackage = exporter.CreateExcelPackage();
             //TestHelper.OpenDocument(excelPackage);
