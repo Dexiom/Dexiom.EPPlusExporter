@@ -12,7 +12,7 @@ namespace Dexiom.EPPlusExporter.Helpers
     public static class WorksheetHelper
     {
         #region Internal
-        internal static void FormatAsTable(ExcelRangeBase range, TableStyles tableStyle, string tableName, bool autoFitColumns)
+        internal static void FormatAsTable(ExcelRangeBase range, TableStyles tableStyle, string tableName, bool autoFitColumns = true)
         {
             //format the table
             var table = range.Worksheet.Tables.Add(range, tableName);
