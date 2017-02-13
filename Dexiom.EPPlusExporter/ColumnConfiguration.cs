@@ -12,5 +12,7 @@ namespace Dexiom.EPPlusExporter
     {
         public ColumnHeaderConfiguration Header { get; } = new ColumnHeaderConfiguration();
         public ColumnContentConfiguration Content { get; } = new ColumnContentConfiguration();
+
+        public double? Width { get; set; }
     }
 }

@@ -91,7 +91,8 @@ namespace Dexiom.EPPlusExporter.Tests
             };
             
             {
-                var exporter = EnumerableExporter.Create(data, TableStyles.None);
+                var exporter = EnumerableExporter.Create(data, TableStyles.None)
+                    .Configure(n => n.IntValue, configuration => configuration.Width = 60);
                 exporter.AutoFitColumns = false;
 
                 var excelPackage = exporter.CreateExcelPackage();
@@ -101,10 +102,12 @@ namespace Dexiom.EPPlusExporter.Tests
 
                 //The two first columns should have the same size
                 Assert.IsTrue(Math.Abs(excelWorksheet.Column(1).Width - excelWorksheet.Column(2).Width) < 0.001);
+                Assert.IsTrue(Math.Abs(excelWorksheet.Column(4).Width - 60) < 0.001);
             }
 
             {
-                var exporter = EnumerableExporter.Create(data, TableStyles.None);
+                var exporter = EnumerableExporter.Create(data, TableStyles.None)
+                    .Configure(n => n.IntValue, configuration => configuration.Width = 60);
                 exporter.AutoFitColumns = true;
 
                 var excelPackage = exporter.CreateExcelPackage();
@@ -114,6 +117,7 @@ namespace Dexiom.EPPlusExporter.Tests
 
                 //The two first columns should have the same size
                 Assert.IsTrue(Math.Abs(excelWorksheet.Column(1).Width - excelWorksheet.Column(2).Width) > 0.001);
+                Assert.IsTrue(Math.Abs(excelWorksheet.Column(4).Width - 60) < 0.001);
             }
         }
     }

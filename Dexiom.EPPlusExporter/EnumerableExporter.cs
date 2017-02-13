@@ -87,6 +87,9 @@ namespace Dexiom.EPPlusExporter
             //get bottom & right bounds
             var dataLastCol = dataFirstCol + displayedProperties.Count - 1;
             var dataLastRow = dataFirstRow + Math.Max(myData.Count, 1) - 1; //make sure to have at least 1 data line (for table format)
+            var tableRange = worksheet.Cells[headerFirstRow, headerFirstCol, dataLastRow, dataLastCol];
+            
+            WorksheetHelper.FormatAsTable(tableRange, TableStyle, WorksheetName, false);
 
             //apply configurations
             {
@@ -106,6 +109,12 @@ namespace Dexiom.EPPlusExporter
 
                     //apply style
                     colConfig.Content.SetStyle(columnRange.Style);
+
+                    if (colConfig.Width.HasValue)
+                        worksheet.Column(iCol).Width = colConfig.Width.Value;
+                    else if (AutoFitColumns)
+                        worksheet.Column(iCol).AutoFit();
+
 
                     iCol++;
                 }
@@ -134,7 +143,7 @@ namespace Dexiom.EPPlusExporter
             }
         
             //return the entire grid range
-            return worksheet.Cells[headerFirstRow, headerFirstCol, dataLastRow, dataLastCol]; 
+            return tableRange;
         }
 
         #endregion

@@ -52,7 +52,7 @@ namespace Dexiom.EPPlusExporter
                 Property = property,
                 Value = GetPropertyValue(property, Data)
             });
-
+            
             var iRow = 1;
             foreach (var item in myData)
             {
@@ -82,7 +82,10 @@ namespace Dexiom.EPPlusExporter
                     ConditionalStyles[item.Property.Name](Data, worksheet.Cells[iRow, 1, iRow, 2].Style);
             }
 
-            return worksheet.Cells[1, 1, iRow, 2];
+            var tableRange = worksheet.Cells[1, 1, iRow, 2];
+            WorksheetHelper.FormatAsTable(tableRange, TableStyle, WorksheetName);
+
+            return tableRange;
         }
         #endregion
     }

@@ -31,8 +31,6 @@ namespace Dexiom.EPPlusExporter
             var excelRange = AddWorksheet(retVal);
             if (excelRange == null)
                 return null;
-            
-            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName, AutoFitColumns);
 
             //apply table customizations
             foreach (var tableCustomization in _tableCustomizations)
@@ -49,8 +47,6 @@ namespace Dexiom.EPPlusExporter
             var excelRange = AddWorksheet(package);
             if (excelRange == null)
                 return null;
-
-            WorksheetHelper.FormatAsTable(excelRange, TableStyle, WorksheetName, AutoFitColumns);
 
             //apply table customizations
             foreach (var tableCustomization in _tableCustomizations)
