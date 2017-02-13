@@ -95,7 +95,7 @@ namespace Dexiom.EPPlusExporter.Tests
                 exporter.AutoFitColumns = false;
 
                 var excelPackage = exporter.CreateExcelPackage();
-                TestHelper.OpenDocument(excelPackage);
+                //TestHelper.OpenDocument(excelPackage);
 
                 var excelWorksheet = excelPackage.Workbook.Worksheets.First();
 
@@ -108,7 +108,7 @@ namespace Dexiom.EPPlusExporter.Tests
                 exporter.AutoFitColumns = true;
 
                 var excelPackage = exporter.CreateExcelPackage();
-                TestHelper.OpenDocument(excelPackage);
+                //TestHelper.OpenDocument(excelPackage);
 
                 var excelWorksheet = excelPackage.Workbook.Worksheets.First();
 
