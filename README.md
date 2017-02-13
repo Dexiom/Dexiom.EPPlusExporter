@@ -58,4 +58,4 @@ var excelPackage = EnumerableExporter.Create(employees) //new EnumerableExporter
 ## License
 Copyright (c) Consultation Dexiom. All rights reserved.
 
-Licensed under the [MIT](LICENSE.txt) License.
+Licensed under the [MIT](LICENSE) License.
