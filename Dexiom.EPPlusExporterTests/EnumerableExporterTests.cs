@@ -34,7 +34,7 @@ namespace Dexiom.EPPlusExporter.Tests
         }
         
         [TestMethod()]
-        public void AddWorksheetToExistingPackageTest()
+        public void AppendToExcelPackageTest()
         {
             var data = new[]
             {
@@ -42,7 +42,7 @@ namespace Dexiom.EPPlusExporter.Tests
             };
 
             var excelPackage = TestHelper.FakeAnExistingDocument();
-            EnumerableExporter.Create(data).AddWorksheetToExistingPackage(excelPackage);
+            EnumerableExporter.Create(data).AppendToExcelPackage(excelPackage);
 
             Assert.IsTrue(excelPackage.Workbook.Worksheets.Count == 2);
         }
@@ -66,7 +66,7 @@ namespace Dexiom.EPPlusExporter.Tests
             // ReSharper disable once ExpressionIsAlwaysNull
             Assert.IsNull(EnumerableExporter.Create(data).CreateExcelPackage());
             // ReSharper disable once ExpressionIsAlwaysNull
-            Assert.IsNull(ObjectExporter.Create(data).AddWorksheetToExistingPackage(TestHelper.FakeAnExistingDocument()));
+            Assert.IsNull(ObjectExporter.Create(data).AppendToExcelPackage(TestHelper.FakeAnExistingDocument()));
         }
         
         [TestMethod()]
@@ -138,7 +138,7 @@ namespace Dexiom.EPPlusExporter.Tests
 
             //set properties
             eporter.WorksheetName = newWorksheetName;
-            eporter.AddWorksheetToExistingPackage(excelPackage);
+            eporter.AppendToExcelPackage(excelPackage);
             
             //check properties
             var sheetToCheck = excelPackage.Workbook.Worksheets.Last();

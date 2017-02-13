@@ -45,7 +45,7 @@ namespace Dexiom.EPPlusExporter.Tests
 
             try
             {
-                EnumerableExporter.Create(data).AddWorksheetToExistingPackage(null);
+                EnumerableExporter.Create(data).AppendToExcelPackage(null);
                 Assert.Fail();
             }
             catch (ArgumentNullException ex)

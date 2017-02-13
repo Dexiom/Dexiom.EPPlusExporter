@@ -5,6 +5,6 @@ namespace Dexiom.EPPlusExporter.Interfaces
     public interface IExporter
     {
         ExcelPackage CreateExcelPackage();
-        ExcelWorksheet AddWorksheetToExistingPackage(ExcelPackage package);
+        ExcelWorksheet AppendToExcelPackage(ExcelPackage package);
     }
 }

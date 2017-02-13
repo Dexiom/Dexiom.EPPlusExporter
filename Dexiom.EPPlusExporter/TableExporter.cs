@@ -41,7 +41,7 @@ namespace Dexiom.EPPlusExporter
             return retVal;
         }
 
-        public ExcelWorksheet AddWorksheetToExistingPackage(ExcelPackage package)
+        public ExcelWorksheet AppendToExcelPackage(ExcelPackage package)
         {
             if (package == null)
                 throw new ArgumentNullException(nameof(package));
