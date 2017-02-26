@@ -37,10 +37,18 @@ namespace Dexiom.EPPlusExporter
             if (Data == null)
                 return null;
 
-            var properties = Data.GetType().GetProperties();
-            var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
-            var displayedProperties = properties.Where(p => !IgnoredProperties.Contains(p.Name)).ToList();
+            //get available properties
+            var properties = Data.GetType().GetProperties()
+                .Where(p => !IgnoredProperties.Contains(p.Name));
+
+            //resolve displayed properties
+            var displayedProperties = DisplayedProperties?.Select(propName => properties.FirstOrDefault(n => n.Name == propName)).Where(propInfo => propInfo != null).ToList() ?? properties.ToList();
+            
+            //init the configurations
             var columnConfigurations = GetColumnConfigurations(displayedProperties.Select(n => n.Name));
+
+            //create the worksheet
+            var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
 
             //Create table header
             worksheet.Cells[1, 1].Value = "Item";

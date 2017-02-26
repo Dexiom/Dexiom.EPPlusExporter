@@ -11,18 +11,23 @@ namespace Dexiom.EPPlusExporter.Interfaces
         TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> property, Action<ColumnConfiguration> column);
         
         TableExporter<T> CustomizeTable(Action<ExcelRange> applyCustomization);
-        
+
 
         #region Shorthands for configure
+
         TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle);
 
         TableExporter<T> HeaderStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle);
 
         TableExporter<T> NumberFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string numberFormat);
-        
+
         #endregion
 
+
         #region Misc
+
+        TableExporter<T> Display<TProperty>(Expression<Func<T, TProperty>> property);
+
         TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property);
 
         TableExporter<T> DefaultNumberFormat(Type type, string numberFormat);

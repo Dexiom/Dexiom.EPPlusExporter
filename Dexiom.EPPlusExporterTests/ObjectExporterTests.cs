@@ -140,6 +140,26 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void DisplayTest()
+        {
+            var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };
+
+            var excelWorksheet = ObjectExporter.Create(data)
+                .Ignore(n => n.DateValue)
+                .Display(n => new
+                {
+                    n.TextValue,
+                    n.DoubleValue
+                })
+                .CreateExcelPackage()
+                .Workbook.Worksheets.First();
+
+            Assert.IsTrue(excelWorksheet.Cells[2, 1].Text == "Text Value");
+            Assert.IsTrue(excelWorksheet.Cells[3, 1].Text == "Double Value");
+            Assert.IsTrue(excelWorksheet.Cells[4, 1].Text == string.Empty);
+        }
+        
+        [TestMethod()]
         public void IgnoreTest()
         {
             var data = new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5 };
@@ -151,8 +171,7 @@ namespace Dexiom.EPPlusExporter.Tests
 
             Assert.IsTrue(excelWorksheet.Cells[2, 1].Text == "Date Value");
         }
-
-
+        
         [TestMethod()]
         public void TextFormatForTest()
         {

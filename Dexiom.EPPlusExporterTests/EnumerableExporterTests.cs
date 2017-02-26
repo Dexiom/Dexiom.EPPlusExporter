@@ -195,6 +195,29 @@ namespace Dexiom.EPPlusExporter.Tests
         }
 
         [TestMethod()]
+        public void DisplayTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
+            };
+
+            var excelWorksheet = EnumerableExporter.Create(data)
+                .Ignore(n => n.DateValue)
+                .Display(n => new
+                {
+                    n.TextValue,
+                    n.DoubleValue
+                })
+                .CreateExcelPackage()
+                .Workbook.Worksheets.First();
+
+            Assert.IsTrue(excelWorksheet.Cells[1, 1].Text == "Text Value");
+            Assert.IsTrue(excelWorksheet.Cells[1, 2].Text == "Double Value");
+            Assert.IsTrue(excelWorksheet.Cells[1, 3].Text == string.Empty);
+        }
+
+        [TestMethod()]
         public void IgnoreTest()
         {
             var data = new[]

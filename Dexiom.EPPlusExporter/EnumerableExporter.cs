@@ -48,12 +48,19 @@ namespace Dexiom.EPPlusExporter
 
             //let's avoid multiple enumeration
             var myData = Data as IList<T> ?? Data.ToList();
-            
-            //var properties = myData.First().GetType().GetProperties();
-            var properties = ReflectionHelper.GetBaseTypeOfEnumerable(Data).GetProperties();
-            var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
-            var displayedProperties = properties.Where(p => !IgnoredProperties.Contains(p.Name)).ToList();
+
+            //get available properties
+            var properties = ReflectionHelper.GetBaseTypeOfEnumerable(Data).GetProperties()
+                .Where(p => !IgnoredProperties.Contains(p.Name));
+
+            //resolve displayed properties
+            var displayedProperties = DisplayedProperties?.Select(propName => properties.FirstOrDefault(n => n.Name == propName)).Where(propInfo => propInfo != null).ToList() ?? properties.ToList();
+
+            //init the configurations
             var columnConfigurations = GetColumnConfigurations(displayedProperties.Select(n => n.Name));
+
+            //create the worksheet
+            var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
 
             //Create table header
             {

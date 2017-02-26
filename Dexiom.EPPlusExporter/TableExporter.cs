@@ -90,6 +90,17 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
 
+        public TableExporter<T> Display<TProperty>(Expression<Func<T, TProperty>> property)
+        {
+            if (DisplayedProperties == null)
+                DisplayedProperties = new HashSet<string>();
+
+            foreach (var propName in PropertyNames.For(property))
+                DisplayedProperties.Add(propName);
+
+            return this;
+        }
+
         public TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property)
         {
             foreach (var propName in PropertyNames.For(property))
@@ -125,8 +136,10 @@ namespace Dexiom.EPPlusExporter
         #region Protected
         protected Dictionary<string, string> TextFormats { get; } = new Dictionary<string, string>();
 
+        protected HashSet<string> DisplayedProperties { get; private set; }
+
         protected HashSet<string> IgnoredProperties { get; } = new HashSet<string>();
-        
+
         protected Dictionary<string, Action<T, ExcelStyle>> ConditionalStyles { get; } = new Dictionary<string, Action<T, ExcelStyle>>();
 
         protected Dictionary<Type, string> DefaultNumberFormats { get; } = new Dictionary<Type, string>
