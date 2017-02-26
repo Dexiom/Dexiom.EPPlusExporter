@@ -48,5 +48,28 @@ namespace EPPlusExporterDemo
 
             Program.SaveAndOpenDocument(excelPackage);
         }
+
+        public static void Sample3()
+        {
+            var data = new[]
+            {
+                new { TextValue = "Text #1", DateValue = DateTime.Now, DoubleValue = 10.1, IntValue = 1},
+                new { TextValue = "Text #2", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 2},
+                new { TextValue = "Text #3", DateValue = DateTime.Now, DoubleValue = 10.3, IntValue = 3},
+                new { TextValue = "Text #4", DateValue = DateTime.Now, DoubleValue = 10.4, IntValue = 4}
+            };
+
+            var exporter = EnumerableExporter.Create(data)
+                .NumberFormatFor(n => n.DateValue, "yyyy-mmm-dd")
+                .NumberFormatFor(n => new
+                {
+                    n.DoubleValue,
+                    n.IntValue
+                }, "0.00");
+            
+            var excelPackage = exporter.CreateExcelPackage();
+
+            Program.SaveAndOpenDocument(excelPackage);
+        }
     }
 }

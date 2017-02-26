@@ -19,10 +19,11 @@ namespace EPPlusExporterDemo
         {
             //EnumerableDemo.Sample1();
             //EnumerableDemo.Sample2();
+            EnumerableDemo.Sample3();
             //ObjectDemo.Sample1();
             //ObjectDemo.Sample2();
-            ExportSimpleObject();
-            ExportEnumerable();
+            //ExportSimpleObject();
+            //ExportEnumerable();
         }
 
         private static void ExportSimpleObject()
