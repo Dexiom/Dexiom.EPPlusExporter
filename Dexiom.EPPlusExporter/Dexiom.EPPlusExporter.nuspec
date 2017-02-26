@@ -13,7 +13,7 @@
     <description>$description$</description>
     <releaseNotes></releaseNotes>
     <copyright>© Consultation Dexiom inc.</copyright>
-    <tags>EPPlus Export Excel XLSX</tags>
+    <tags>EPPlus Export Excel XLSX OOXML</tags>
   </metadata>
   <files>
     <file src="bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net45"></file>
