@@ -34,12 +34,11 @@ excelPackage.SaveAs(new FileInfo("C:\\example1.xlsx"));
 Quick customization can be accomplished by using the fluent interface like this:
 
 ```csharp
-var excelPackage = EnumerableExporter.Create(employees) //new EnumerableExporter<Employee>(employees)
-	.DefaultNumberFormat(typeof(DateTime), "yyyy-MM-dd") //set default format for all DateTime columns
+var excelPackage = EnumerableExporter.Create(employees)
+	.DefaultNumberFormat(typeof(DateTime), "yyyy-MM-dd") //set a default format for all DateTime columns
 	.NumberFormatFor(n => n.DateOfBirth, "{0:yyyy-MMM-dd}") //set a specific format for the "DateOfBirth"
-	.Ignore(n => n.UserName) //do not show the "UserName" column in the output
-	.Ignore(n => n.Email) //do not show the "Column" column in the output
-	.TextFormatFor(n => n.Phone, "Cell: {0}") //add the "Cell: " prefix to the value
+	.Ignore(n => new { n.UserName, n.Email }) //remove 2 columns from the output
+	.TextFormatFor(n => n.Phone, "Cell: {0}") //add a prefix to the value
 	.StyleFor(n => n.DateContractEnd, style =>
 	{
 	    style.Fill.Gradient.Color1.SetColor(Color.Yellow);
