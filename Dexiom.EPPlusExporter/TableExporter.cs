@@ -150,7 +150,12 @@ namespace Dexiom.EPPlusExporter
         
         protected object GetPropertyValue(PropertyInfo property, object item)
         {
+#if NET4
+            var value = property.GetValue(item, null);
+#endif
+#if NET45
             var value = property.GetValue(item);
+#endif
             if (value != null && TextFormats.ContainsKey(property.Name))
                 return string.Format(TextFormats[property.Name], value);
 

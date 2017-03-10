@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,6 +9,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporter.Extensions;
+#if NET45
+using System.ComponentModel.DataAnnotations;
+#endif
 
 namespace Dexiom.EPPlusExporter.Helpers
 {
@@ -21,10 +23,11 @@ namespace Dexiom.EPPlusExporter.Helpers
             if (displayNameAttribute != null)
                 return displayNameAttribute.DisplayName;
 
+#if NET45
             var displayAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayAttribute>(property, true);
             if (displayAttribute != null)
                 return displayAttribute.Name;
-
+#endif
             //well, no attribue found, let's just take that property's name then...
             return splitCamelCase ? SplitCamelCase(property.Name) : property.Name;
         }
@@ -49,7 +52,7 @@ namespace Dexiom.EPPlusExporter.Helpers
                 : elementType;
         }
         
-        #region Private
+#region Private
         private static string SplitCamelCase(string text)
         {
             return Regex.Replace(
@@ -62,6 +65,6 @@ namespace Dexiom.EPPlusExporter.Helpers
                 "$1 $2"
             );
         }
-        #endregion
+#endregion
     }
 }
