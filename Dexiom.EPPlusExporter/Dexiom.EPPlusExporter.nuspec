@@ -14,18 +14,18 @@
     <releaseNotes></releaseNotes>
     <copyright>© Consultation Dexiom inc.</copyright>
     <tags>EPPlus Export Excel XLSX OOXML</tags>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="System.ComponentModel.Annotations" />
+      </group>
+      <group targetFramework="net46">
+        <dependency id="System.ComponentModel.Annotations" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net46"></file>
     <file src="..\Dexiom.EPPlusExporter.Net45\bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net45"></file>
     <file src="..\Dexiom.EPPlusExporter.Net4\bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net4"></file>
   </files>
-  <dependencies>
-    <group targetFramework="net45">
-      <dependency id="System.ComponentModel.Annotations" />
-    </group>
-    <group targetFramework="net46">
-      <dependency id="System.ComponentModel.Annotations" />
-    </group>
-  </dependencies>
 </package>
