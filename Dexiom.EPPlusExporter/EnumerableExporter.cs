@@ -12,9 +12,6 @@ using Dexiom.EPPlusExporter.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
-//#if NET45
-//using System.ComponentModel.DataAnnotations;
-//#endif
 
 namespace Dexiom.EPPlusExporter
 {

@@ -153,7 +153,7 @@ namespace Dexiom.EPPlusExporter
 #if NET4
             var value = property.GetValue(item, null);
 #endif
-#if NET45
+#if NET45 || NET46
             var value = property.GetValue(item);
 #endif
             if (value != null && TextFormats.ContainsKey(property.Name))

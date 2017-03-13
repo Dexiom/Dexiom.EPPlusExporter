@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporter.Extensions;
-#if NET45
+#if NET45 || NET46
 using System.ComponentModel.DataAnnotations;
 #endif
 
@@ -23,7 +23,7 @@ namespace Dexiom.EPPlusExporter.Helpers
             if (displayNameAttribute != null)
                 return displayNameAttribute.DisplayName;
 
-#if NET45
+#if NET45 || NET46
             var displayAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayAttribute>(property, true);
             if (displayAttribute != null)
                 return displayAttribute.Name;
