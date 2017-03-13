@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporterTests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D9F7856D-81D3-43E1-8BC8-1F6A78B00DE2}"
 	ProjectSection(SolutionItems) = preProject
+		Dexiom.EPPlusExporter.nuspec = Dexiom.EPPlusExporter.nuspec
 		README.md = README.md
 	EndProjectSection
 EndProject
