@@ -65,6 +65,7 @@
     <Compile Include="ColumnConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dexiom.EPPlusExporter.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
