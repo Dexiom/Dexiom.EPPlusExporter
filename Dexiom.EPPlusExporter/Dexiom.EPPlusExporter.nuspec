@@ -15,11 +15,16 @@
     <copyright>© Consultation Dexiom inc.</copyright>
     <tags>EPPlus Export Excel XLSX OOXML</tags>
     <dependencies>
+      <group targetFramework="net4">
+        <dependency id="EPPlus" version="4.1.0" />
+      </group>
       <group targetFramework="net45">
-        <dependency id="System.ComponentModel.Annotations" />
+        <dependency id="EPPlus" version="4.1.0" />
+        <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
       </group>
       <group targetFramework="net46">
-        <dependency id="System.ComponentModel.Annotations" />
+        <dependency id="EPPlus" version="4.1.0" />
+        <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
       </group>
     </dependencies>
   </metadata>
