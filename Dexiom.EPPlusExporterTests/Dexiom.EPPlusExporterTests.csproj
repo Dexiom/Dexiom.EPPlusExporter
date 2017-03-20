@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dexiom.EPPlusExporterTests</RootNamespace>
     <AssemblyName>Dexiom.EPPlusExporterTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,13 +76,13 @@
     <Compile Include="TableExporterTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dexiom.EPPlusExporter\Dexiom.EPPlusExporter.csproj">
-      <Project>{9A52C50C-F868-4838-8A5E-562A5DDA4707}</Project>
-      <Name>Dexiom.EPPlusExporter</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Dexiom.EPPlusExporter.Net45\Dexiom.EPPlusExporter.Net45.csproj">
+      <Project>{1407e7d6-d040-49a9-902b-2404702ed82e}</Project>
+      <Name>Dexiom.EPPlusExporter.Net45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

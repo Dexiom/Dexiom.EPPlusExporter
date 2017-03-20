@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -16,26 +15,26 @@ using OfficeOpenXml.Table;
 
 namespace Dexiom.EPPlusExporter
 {
-    #region Create Method (using type inference)
+#region Create Method (using type inference)
     public class EnumerableExporter
     {
         public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, TableStyles tableStyles = TableStyles.Medium4) where T : class => new EnumerableExporter<T>(data) { TableStyle = tableStyles };
     }
-    #endregion
+#endregion
 
     public class EnumerableExporter<T> : TableExporter<T>
         where T : class
     {
         public IEnumerable<T> Data { get; set; }
 
-        #region Constructors
+#region Constructors
         public EnumerableExporter(IEnumerable<T> data)
         {
             Data = data;
         }
-        #endregion
+#endregion
 
-        #region Protected
+#region Protected
         protected override ExcelRange AddWorksheet(ExcelPackage package)
         {
             const int headerFirstRow = 1;
@@ -153,6 +152,6 @@ namespace Dexiom.EPPlusExporter
             return tableRange;
         }
 
-        #endregion
+#endregion
     }
 }
