@@ -1,36 +1,31 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
+    <id>Dexiom.EPPlusExporter</id>
     <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <title>Dexiom.EPPlusExporter</title>
+    <authors>Dexiom</authors>
+    <owners>Dexiom</owners>
     <iconUrl>https://raw.githubusercontent.com/Dexiom/Dexiom.EPPlusExporter/master/Docs/logo.png</iconUrl>
     <licenseUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.</description>
     <releaseNotes></releaseNotes>
     <copyright>© Consultation Dexiom inc.</copyright>
     <tags>EPPlus Export Excel XLSX OOXML</tags>
     <dependencies>
-      <group targetFramework="net4">
+      <group targetFramework="net40">
         <dependency id="EPPlus" version="4.1.0" />
       </group>
       <group targetFramework="net45">
         <dependency id="EPPlus" version="4.1.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
       </group>
-      <group targetFramework="net46">
-        <dependency id="EPPlus" version="4.1.0" />
-        <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
-      </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net46"></file>
+    <file src="..\Dexiom.EPPlusExporter\bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net40"></file>
     <file src="..\Dexiom.EPPlusExporter.Net45\bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net45"></file>
-    <file src="..\Dexiom.EPPlusExporter.Net4\bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net4"></file>
   </files>
 </package>

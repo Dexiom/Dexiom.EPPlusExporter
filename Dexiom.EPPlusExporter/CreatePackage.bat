@@ -1,0 +1,1 @@
+nuget pack Dexiom.EPPlusExporter.nuspec -Properties version="0.0.1"

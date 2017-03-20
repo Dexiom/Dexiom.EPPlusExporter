@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Dexiom.EPPlusExporter.Net4")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Dexiom.EPPlusExporter")]
+[assembly: AssemblyDescription("A very simple, yet incredibly powerfull library to generate Excel documents out of objects, arrays, lists, collections, etc.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Dexiom.EPPlusExporter.Net4")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("Dexiom")]
+[assembly: AssemblyProduct("Dexiom.EPPlusExporter")]
+[assembly: AssemblyCopyright("© Consultation Dexiom inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,6 +21,9 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("8953d240-957b-4e11-9732-13bc297064fb")]
+
+//Make internal classes visible from the test project
+[assembly: InternalsVisibleTo("Dexiom.EPPlusExporterTests")]
 
 // Version information for an assembly consists of the following four values:
 //

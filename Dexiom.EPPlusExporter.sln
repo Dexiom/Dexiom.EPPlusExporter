@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporter", "Dexiom.EPPlusExporter\Dexiom.EPPlusExporter.csproj", "{9A52C50C-F868-4838-8A5E-562A5DDA4707}"
 EndProject
@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporter.Net4", "Dexiom.EPPlusExporter.Net4\Dexiom.EPPlusExporter.Net4.csproj", "{8953D240-957B-4E11-9732-13BC297064FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporter.Net45", "Dexiom.EPPlusExporter.Net45\Dexiom.EPPlusExporter.Net45.csproj", "{1407E7D6-D040-49A9-902B-2404702ED82E}"
 EndProject
@@ -36,10 +34,6 @@ Global
 		{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A2812F0-5456-4A1D-A81E-0DA46DEA3826}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8953D240-957B-4E11-9732-13BC297064FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8953D240-957B-4E11-9732-13BC297064FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8953D240-957B-4E11-9732-13BC297064FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8953D240-957B-4E11-9732-13BC297064FB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1407E7D6-D040-49A9-902B-2404702ED82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1407E7D6-D040-49A9-902B-2404702ED82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1407E7D6-D040-49A9-902B-2404702ED82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
