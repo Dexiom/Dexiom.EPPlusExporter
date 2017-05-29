@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dexiom.EPPlusExporterTests.Helpers;
 using OfficeOpenXml.Style;
+using System.Globalization;
 
 namespace Dexiom.EPPlusExporter.Tests
 {
@@ -117,8 +118,10 @@ namespace Dexiom.EPPlusExporter.Tests
                 .CreateExcelPackage()
                 .Workbook.Worksheets.First();
 
+            string numberDecimalSeparator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
+
             Assert.IsTrue(excelWorksheet.Cells[3, 2].Text == DateTime.Today.ToString("DATE: yyyy-MM-dd")); //DateValue
-            Assert.IsTrue(excelWorksheet.Cells[4, 2].Text == "10.20 $"); //DoubleValue
+            Assert.IsTrue(excelWorksheet.Cells[4, 2].Text == $"10{numberDecimalSeparator}20 $"); //DoubleValue
             Assert.IsTrue(excelWorksheet.Cells[5, 2].Text == "05"); //IntValue
         }
 
@@ -134,8 +137,10 @@ namespace Dexiom.EPPlusExporter.Tests
                 .CreateExcelPackage()
                 .Workbook.Worksheets.First();
 
+            string numberDecimalSeparator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
+
             Assert.IsTrue(excelWorksheet.Cells[3, 2].Text == DateTime.Today.ToString("DATE: yyyy-MM-dd")); //DateValue
-            Assert.IsTrue(excelWorksheet.Cells[4, 2].Text == "10.20 $"); //DoubleValue
+            Assert.IsTrue(excelWorksheet.Cells[4, 2].Text == $"10{numberDecimalSeparator}20 $"); //DoubleValue
             Assert.IsTrue(excelWorksheet.Cells[5, 2].Text == "05"); //IntValue
         }
 

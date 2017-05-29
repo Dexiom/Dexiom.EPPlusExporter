@@ -168,9 +168,11 @@ namespace Dexiom.EPPlusExporter.Tests
                 .DefaultNumberFormat(typeof(int), "00")
                 .CreateExcelPackage()
                 .Workbook.Worksheets.First();
+
+            string numberDecimalSeparator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
             
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Today.ToString("DATE: yyyy-MM-dd")); //DateValue
-            Assert.IsTrue(excelWorksheet.Cells[2, 3].Text == "10.20 $"); //DoubleValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 3].Text == $"10{numberDecimalSeparator}20 $"); //DoubleValue
             Assert.IsTrue(excelWorksheet.Cells[2, 4].Text == "05"); //IntValue
         }
 
@@ -189,8 +191,10 @@ namespace Dexiom.EPPlusExporter.Tests
                 .CreateExcelPackage()
                 .Workbook.Worksheets.First();
 
+            string numberDecimalSeparator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
+
             Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Today.ToString("DATE: yyyy-MM-dd")); //DateValue
-            Assert.IsTrue(excelWorksheet.Cells[2, 3].Text == "10.20 $"); //DoubleValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 3].Text == $"10{numberDecimalSeparator}20 $"); //DoubleValue
             Assert.IsTrue(excelWorksheet.Cells[2, 4].Text == "05"); //IntValue
         }
 
