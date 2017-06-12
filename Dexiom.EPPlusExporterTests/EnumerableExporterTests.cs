@@ -136,7 +136,8 @@ namespace Dexiom.EPPlusExporter.Tests
         [TestMethod()]
         public void WorksheetConfigurationTest()
         {
-            const string newWorksheetName = "NewSheet";
+            const string newWorksheetName = "1 - NewSheet";
+            const string newWorksheetExpectedTableName = "_1_-_NewSheet";
             var data = new[]
             {
                 new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
@@ -147,11 +148,14 @@ namespace Dexiom.EPPlusExporter.Tests
 
             //set properties
             eporter.WorksheetName = newWorksheetName;
-            eporter.AppendToExcelPackage(excelPackage);
-            
+            var sheetToCheck = eporter.AppendToExcelPackage(excelPackage);
+
+            //TestHelper.OpenDocument(excelPackage);
+
             //check properties
-            var sheetToCheck = excelPackage.Workbook.Worksheets.Last();
             Assert.IsTrue(sheetToCheck.Name == newWorksheetName);
+            Assert.IsNotNull(sheetToCheck.Tables[newWorksheetExpectedTableName]);
+            
         }
 
         [TestMethod()]

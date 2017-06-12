@@ -11,8 +11,8 @@ namespace Dexiom.EPPlusExporter.Helpers
 {
     public static class WorksheetHelper
     {
-        private const string ESCAPE_PREFIX = "__$";
-        private const string SPACE_PLACEHOLDER = "__!";
+        private const string InvalidCaracterPlaceholder = "_";
+
         #region Internal
         internal static void FormatAsTable(ExcelRangeBase range, TableStyles tableStyle, string tableName, bool autoFitColumns = true)
         {
@@ -29,18 +29,12 @@ namespace Dexiom.EPPlusExporter.Helpers
 
         private static string FormatTableName(string tableName)
         {
-            string escapedTableName = tableName;
+            var retVal = tableName.Replace(" ", InvalidCaracterPlaceholder);
+            
+            if (!char.IsLetter(retVal[0]))
+                retVal = $"{InvalidCaracterPlaceholder}{retVal}";
 
-            char firstChar = tableName[0];
-
-            if(Char.IsLetter(firstChar) == false)
-            {
-                escapedTableName =  $"{ESCAPE_PREFIX}{escapedTableName}";
-            }
-
-            escapedTableName = escapedTableName.Replace(" ", SPACE_PLACEHOLDER);
-
-            return escapedTableName;
+            return retVal;
         }
 
     }
