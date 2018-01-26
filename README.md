@@ -2,7 +2,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/pbnru8yvomkpov5u?svg=true)](https://ci.appveyor.com/project/jpare/dexiom-epplusexporter)
 [![codecov](https://codecov.io/gh/Dexiom/Dexiom.EPPlusExporter/branch/master/graph/badge.svg)](https://codecov.io/gh/Dexiom/Dexiom.EPPlusExporter)
 [![NuGet](https://img.shields.io/nuget/v/Dexiom.EPPlusExporter.svg)](https://www.nuget.org/packages/Dexiom.EPPlusExporter/)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/Dexiom-EPPlusExporter)
 
 ## Download & Install
 
