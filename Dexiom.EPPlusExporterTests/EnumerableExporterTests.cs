@@ -299,7 +299,7 @@ namespace Dexiom.EPPlusExporter.Tests
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
             Assert.IsTrue(excelWorksheet.Cells[1, 2].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
         }
-
+        
         [TestMethod()]
         public void ConditionalStyleForTest()
         {
@@ -326,6 +326,28 @@ namespace Dexiom.EPPlusExporter.Tests
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
             Assert.IsTrue(excelWorksheet.Cells[3, 3].Style.Border.Bottom.Style == ExcelBorderStyle.None);
             Assert.IsTrue(excelWorksheet.Cells[4, 3].Style.Border.Bottom.Style == ExcelBorderStyle.Thick);
+        }
+
+        [TestMethod()]
+        public void FormulaForTest()
+        {
+            var data = new[]
+            {
+                new { TextValue = "SomeText0", DateValue = DateTime.Now, DoubleValue = 0, IntValue = 5},
+                new { TextValue = "SomeText1", DateValue = DateTime.Now, DoubleValue = 1, IntValue = 5},
+                new { TextValue = "SomeText2", DateValue = DateTime.Now, DoubleValue = 2, IntValue = 5},
+                new { TextValue = "SomeText3", DateValue = DateTime.Now, DoubleValue = 3, IntValue = 5}
+            };
+
+            var exporter = EnumerableExporter.Create(data)
+                .FormulaFor(n => n.TextValue, (row, value) => $"=\"Text=\" & \"{value}-\" & \"{row.DoubleValue:0.00}\"");
+
+            var excelPackage = exporter.CreateExcelPackage();
+            //TestHelper.OpenDocument(excelPackage);
+
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+            Assert.IsTrue(excelWorksheet.Cells[3, 1].Formula == "=\"Text=\" & \"SomeText1-\" & \"1.00\"");
+            Assert.IsTrue(excelWorksheet.Cells[4, 1].Formula == "=\"Text=\" & \"SomeText2-\" & \"2.00\"");
         }
 
         #endregion

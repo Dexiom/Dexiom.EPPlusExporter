@@ -147,6 +147,30 @@ namespace Dexiom.EPPlusExporter
                     iCol++;
                 }
             }
+
+            //apply conditional styles
+            {
+                var iCol = dataFirstCol;
+                foreach (var property in displayedProperties)
+                {
+                    if (Formulas.ContainsKey(property.Name))
+                    {
+                        var formulaFormat = Formulas[property.Name];
+
+                        var iRow = dataFirstRow;
+                        foreach (var item in myData)
+                        {
+                            var cell = worksheet.Cells[iRow, iCol];
+                            var formula = formulaFormat(item, cell.Value); //apply style on cell
+                            cell.Value = null;
+                            cell.Formula = formula;
+                            iRow++;
+                        }
+                    }
+
+                    iCol++;
+                }
+            }
         
             //return the entire grid range
             return tableRange;

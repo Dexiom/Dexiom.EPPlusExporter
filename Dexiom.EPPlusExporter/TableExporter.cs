@@ -144,6 +144,13 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
         
+        public TableExporter<T> FormulaFor<TProperty>(Expression<Func<T, TProperty>> property, Func<T, object, string> formulaFormat)
+        {
+            foreach (var propName in PropertyNames.For(property))
+                Formulas.AddOrUpdate(propName, formulaFormat);
+
+            return this;
+        }
         #endregion
         
         #region Protected
@@ -152,8 +159,10 @@ namespace Dexiom.EPPlusExporter
         protected HashSet<string> DisplayedProperties { get; private set; }
 
         protected HashSet<string> IgnoredProperties { get; } = new HashSet<string>();
-
+        
         protected Dictionary<string, Action<T, ExcelStyle>> ConditionalStyles { get; } = new Dictionary<string, Action<T, ExcelStyle>>();
+
+        protected Dictionary<string, Func<T, object, string>> Formulas { get; } = new Dictionary<string, Func<T, object, string>>();
 
         protected Dictionary<Type, string> DefaultNumberFormats { get; } = new Dictionary<Type, string>
         {
