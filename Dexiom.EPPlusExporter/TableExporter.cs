@@ -90,22 +90,35 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
 
-        public TableExporter<T> Display<TProperty>(Expression<Func<T, TProperty>> property)
+        public TableExporter<T> Display(IEnumerable<string> propertyNames)
         {
             if (DisplayedProperties == null)
                 DisplayedProperties = new HashSet<string>();
 
-            foreach (var propName in PropertyNames.For(property))
+            foreach (var propName in propertyNames)
                 DisplayedProperties.Add(propName);
 
             return this;
         }
-
-        public TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> property)
+        
+        public TableExporter<T> Display<TProperty>(Expression<Func<T, TProperty>> properties)
         {
-            foreach (var propName in PropertyNames.For(property))
+            Display(PropertyNames.For(properties));
+
+            return this;
+        }
+
+        public TableExporter<T> Ignore(IEnumerable<string> propertyNames)
+        {
+            foreach (var propName in propertyNames)
                 IgnoredProperties.Add(propName);
 
+            return this;
+        }
+
+        public TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> properties)
+        {
+            Ignore(PropertyNames.For(properties));
             return this;
         }
 
