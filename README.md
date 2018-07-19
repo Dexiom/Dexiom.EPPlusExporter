@@ -35,7 +35,7 @@ Quick customization can be accomplished by using the fluent interface like this:
 ```csharp
 var excelPackage = EnumerableExporter.Create(employees)
 	.DefaultNumberFormat(typeof(DateTime), "yyyy-MM-dd") //set a default format for all DateTime columns
-	.NumberFormatFor(n => n.DateOfBirth, "{0:yyyy-MMM-dd}") //set a specific format for the "DateOfBirth"
+	.NumberFormatFor(n => n.DateOfBirth, "yyyy-MMM-dd") //set a specific format for the "DateOfBirth"
 	.Ignore(n => new { n.UserName, n.Email }) //remove 2 columns from the output
 	.TextFormatFor(n => n.Phone, "Cell: {0}") //add a prefix to the value
 	.StyleFor(n => n.DateContractEnd, style =>
