@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayField.cs" />
+    <Compile Include="DynamicProperty.cs" />
     <Compile Include="ColumnContentConfiguration.cs" />
     <Compile Include="ColumnHeaderConfiguration.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />

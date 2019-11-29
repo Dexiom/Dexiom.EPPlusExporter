@@ -56,6 +56,12 @@
     <Compile Include="..\Dexiom.EPPlusExporter\ColumnHeaderConfiguration.cs">
       <Link>ColumnHeaderConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\Dexiom.EPPlusExporter\DisplayField.cs">
+      <Link>DisplayField.cs</Link>
+    </Compile>
+    <Compile Include="..\Dexiom.EPPlusExporter\DynamicProperty.cs">
+      <Link>DynamicProperty.cs</Link>
+    </Compile>
     <Compile Include="..\Dexiom.EPPlusExporter\EnumerableExporter.cs">
       <Link>EnumerableExporter.cs</Link>
     </Compile>
