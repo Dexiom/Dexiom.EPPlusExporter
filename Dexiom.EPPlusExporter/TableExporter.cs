@@ -178,8 +178,14 @@ namespace Dexiom.EPPlusExporter
 #if NET45 || NET46
             var value = property.GetValue(item);
 #endif
-            if (value != null && TextFormats.ContainsKey(property.Name))
-                return string.Format(TextFormats[property.Name], value);
+
+            return ApplyTextFormat(property.Name, value);
+        }
+
+        protected object ApplyTextFormat(string propertyName, object value)
+        {
+            if (value != null && TextFormats.ContainsKey(propertyName))
+                return string.Format(TextFormats[propertyName], value);
 
             return value;
         }

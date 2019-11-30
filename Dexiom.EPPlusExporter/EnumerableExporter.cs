@@ -10,13 +10,13 @@ using OfficeOpenXml.Table;
 
 namespace Dexiom.EPPlusExporter
 {
-#region Create Method (using type inference)
+    #region Create Method (using type inference)
     public static class EnumerableExporter
     {
         public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, TableStyles tableStyles = TableStyles.Medium4) where T : class => new EnumerableExporter<T>(data) { TableStyle = tableStyles };
-        public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, IEnumerable<DynamicProperty<T>> dynamicProperties, TableStyles tableStyles = TableStyles.Medium4) where T : class => new EnumerableExporter<T>(data) { TableStyle = tableStyles };
+        public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, IEnumerable<DynamicProperty<T>> dynamicProperties, TableStyles tableStyles = TableStyles.Medium4) where T : class => new EnumerableExporter<T>(data, dynamicProperties) { TableStyle = tableStyles };
     }
-#endregion
+    #endregion
 
     public class EnumerableExporter<T> : TableExporter<T>
         where T : class
@@ -24,19 +24,20 @@ namespace Dexiom.EPPlusExporter
         public IEnumerable<T> Data { get; set; }
         public IEnumerable<DynamicProperty<T>> DynamicProperties { get; set; }
 
-#region Constructors
+        #region Constructors
         public EnumerableExporter(IEnumerable<T> data)
         {
             Data = data;
         }
+
         public EnumerableExporter(IEnumerable<T> data, IEnumerable<DynamicProperty<T>> dynamicProperties)
         {
             Data = data;
             DynamicProperties = dynamicProperties;
         }
-#endregion
+        #endregion
 
-#region Protected
+        #region Protected
         protected override ExcelRange AddWorksheet(ExcelPackage package)
         {
             const int headerFirstRow = 1;
@@ -73,14 +74,14 @@ namespace Dexiom.EPPlusExporter
                         allPropertyNames.Add(dynamicPropertyName);
                 }
             }
-            List<PropertyInfo> displayedProperties = new List<PropertyInfo>(); //todo: delete me
+
             var displayFields = new List<DisplayField<T>>();
             foreach (var propertyName in allPropertyNames)
             {
                 var property = properties.FirstOrDefault(n => n.Name == propertyName);
                 if (property != null)
                 {
-                    displayedProperties.Add(property); //todo: delete me
+                    //displayedProperties.Add(property); //todo: delete me
                     displayFields.Add(new DisplayField<T>(property));
                 }
                 else
@@ -92,7 +93,7 @@ namespace Dexiom.EPPlusExporter
             }
 
             //init the configurations
-            var columnConfigurations = GetColumnConfigurations(displayedProperties.Select(n => n.Name));
+            var columnConfigurations = GetColumnConfigurations(displayFields.Select(n => n.Name));
 
             //create the worksheet
             var worksheet = package.Workbook.Worksheets.Add(WorksheetName);
@@ -116,10 +117,10 @@ namespace Dexiom.EPPlusExporter
             foreach (var item in data)
             {
                 var iCol = dataFirstCol;
-                foreach (var property in displayedProperties)
+                foreach (var displayField in displayFields)
                 {
                     var cell = worksheet.Cells[row, iCol];
-                    cell.Value = GetPropertyValue(property, item);
+                    cell.Value = ApplyTextFormat(displayField.Name, displayField.GetValue(item));
 
                     iCol++;
                 }
@@ -127,7 +128,7 @@ namespace Dexiom.EPPlusExporter
             }
             
             //get bottom & right bounds
-            var dataLastCol = dataFirstCol + displayedProperties.Count - 1;
+            var dataLastCol = dataFirstCol + displayFields.Count - 1;
             var dataLastRow = dataFirstRow + Math.Max(data.Count, 1) - 1; //make sure to have at least 1 data line (for table format)
             var tableRange = worksheet.Cells[headerFirstRow, headerFirstCol, dataLastRow, dataLastCol];
             
@@ -136,14 +137,14 @@ namespace Dexiom.EPPlusExporter
             //apply configurations
             {
                 var iCol = dataFirstCol;
-                foreach (var property in displayedProperties)
+                foreach (var displayField in displayFields)
                 {
-                    var colConfig = columnConfigurations[property.Name];
+                    var colConfig = columnConfigurations[displayField.Name];
                     var columnRange = worksheet.Cells[dataFirstRow, iCol, dataLastRow, iCol];
 
                     //apply default number format
-                    if (DefaultNumberFormats.ContainsKey(property.PropertyType))
-                        columnRange.Style.Numberformat.Format = DefaultNumberFormats[property.PropertyType];
+                    if (DefaultNumberFormats.ContainsKey(displayField.Type))
+                        columnRange.Style.Numberformat.Format = DefaultNumberFormats[displayField.Type];
 
                     //apply number format
                     if (colConfig.Content.NumberFormat != null)
@@ -165,11 +166,11 @@ namespace Dexiom.EPPlusExporter
             //apply conditional styles
             {
                 var iCol = dataFirstCol;
-                foreach (var property in displayedProperties)
+                foreach (var displayField in displayFields)
                 {
-                    if (ConditionalStyles.ContainsKey(property.Name))
+                    if (ConditionalStyles.ContainsKey(displayField.Name))
                     {
-                        var conditionalStyle = ConditionalStyles[property.Name];
+                        var conditionalStyle = ConditionalStyles[displayField.Name];
 
                         var iRow = dataFirstRow;
                         foreach (var item in data)
@@ -187,11 +188,11 @@ namespace Dexiom.EPPlusExporter
             //apply conditional styles
             {
                 var iCol = dataFirstCol;
-                foreach (var property in displayedProperties)
+                foreach (var displayField in displayFields)
                 {
-                    if (Formulas.ContainsKey(property.Name))
+                    if (Formulas.ContainsKey(displayField.Name))
                     {
-                        var formulaFormat = Formulas[property.Name];
+                        var formulaFormat = Formulas[displayField.Name];
 
                         var iRow = dataFirstRow;
                         foreach (var item in data)
@@ -212,6 +213,6 @@ namespace Dexiom.EPPlusExporter
             return tableRange;
         }
 
-#endregion
+        #endregion
     }
 }

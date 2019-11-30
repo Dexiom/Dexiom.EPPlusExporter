@@ -13,54 +13,26 @@ namespace Dexiom.EPPlusExporter
         public DisplayField(PropertyInfo propertyInfo)
         {
             _propertyInfo = propertyInfo;
+
+            Name = _propertyInfo.Name;
+            DisplayName = ReflectionHelper.GetPropertyDisplayName(_propertyInfo);
+            Type = _propertyInfo.PropertyType;
         }
 
         public DisplayField(DynamicProperty<T> dynamicProperty)
         {
             _dynamicProperty = dynamicProperty;
-        }
-        
-        public string Name
-        {
-            get
-            {
-                if (_propertyInfo != null)
-                    return _propertyInfo.Name;
 
-                if (_dynamicProperty != null)
-                    return _dynamicProperty.Name;
-
-                throw new ArgumentException();
-            }
+            Name = _dynamicProperty.Name;
+            DisplayName = _dynamicProperty.DisplayName;
+            Type = _dynamicProperty.ValueType;
         }
 
-        public string DisplayName
-        {
-            get
-            {
-                if (_propertyInfo != null)
-                    return ReflectionHelper.GetPropertyDisplayName(_propertyInfo);
-
-                if (_dynamicProperty != null)
-                    return _dynamicProperty.DisplayName;
-
-                throw new ArgumentException();
-            }
-        }
-
-        public Type Type
-        {
-            get
-            {
-                if (_propertyInfo != null)
-                    return _propertyInfo.PropertyType;
-
-                if (_dynamicProperty != null)
-                    return _dynamicProperty.ValueType;
-
-                throw new ArgumentException();
-            }
-        }
+        #region Properties
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public Type Type { get; set; }
+        #endregion
 
         public object GetValue(T item)
         {
@@ -74,11 +46,7 @@ namespace Dexiom.EPPlusExporter
 #endif
             }
 
-            if (_dynamicProperty != null)
-                return _dynamicProperty.GetValue(item);
-
-            throw new ArgumentException();
+            return _dynamicProperty.GetValue(item);
         }
-
     }
 }
