@@ -111,6 +111,14 @@ namespace Dexiom.EPPlusExporter.Tests
                         style.Border.Right.Style = ExcelBorderStyle.Dashed;
                     };
                 })
+                .Configure(new []{ "DynamicColumn1", "IntValue" }, n =>
+                    {
+                        n.Header.SetStyle = style =>
+                        {
+                            style.Font.Bold = true;
+                            style.Font.Color.SetColor(Color.Black);
+                        };
+                    })
                 .CustomizeTable(range =>
                 {
                     var newRange = range.Worksheet.Cells[range.End.Row, range.Start.Column, range.End.Row, range.End.Column];
@@ -119,7 +127,7 @@ namespace Dexiom.EPPlusExporter.Tests
                 })
                 .CreateExcelPackage();
 
-            //TestHelper.OpenDocument(excelPackage);
+            TestHelper.OpenDocument(excelPackage);
 
 
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();

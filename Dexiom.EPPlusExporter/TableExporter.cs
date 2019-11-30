@@ -58,38 +58,35 @@ namespace Dexiom.EPPlusExporter
 
         #region ITableOutputCustomization<T>
 
-        public TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> property, Action<ColumnConfiguration> column)
+        public TableExporter<T> Configure<TProperty>(Expression<Func<T, TProperty>> properties, Action<ColumnConfiguration> column) => Configure(PropertyNames.For(properties), column);
+        public TableExporter<T> Configure(IEnumerable<string> propertyNames, Action<ColumnConfiguration> column)
         {
-            foreach (var propName in PropertyNames.For(property))
+            foreach (var propName in propertyNames)
                 _columnAlterations.Add(new KeyValuePair<string, Action<ColumnConfiguration>>(propName, column));
 
             return this;
         }
-        
+
         public TableExporter<T> CustomizeTable(Action<ExcelRange> applyCustomization)
         {
             _tableCustomizations.Add(applyCustomization);
             return this;
         }
 
-        public TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle)
-        {
-            Configure(property, c => c.Content.SetStyle = setStyle);
-            return this;
-        }
 
-        public TableExporter<T> HeaderStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<ExcelStyle> setStyle)
-        {
-            Configure(property, c => c.Header.SetStyle = setStyle);
-            return this;
-        }
+        public TableExporter<T> StyleFor<TProperty>(Expression<Func<T, TProperty>> properties, Action<ExcelStyle> setStyle) => StyleFor(PropertyNames.For(properties), setStyle);
+        public TableExporter<T> StyleFor(IEnumerable<string> propertyNames, Action<ExcelStyle> setStyle) => Configure(propertyNames, c => c.Content.SetStyle = setStyle);
 
-        public TableExporter<T> NumberFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string numberFormat)
-        {
-            Configure(property, c => c.Content.NumberFormat = numberFormat);
-            return this;
-        }
 
+        public TableExporter<T> HeaderStyleFor<TProperty>(Expression<Func<T, TProperty>> properties, Action<ExcelStyle> setStyle) => HeaderStyleFor(PropertyNames.For(properties), setStyle);
+        public TableExporter<T> HeaderStyleFor(IEnumerable<string> propertyNames, Action<ExcelStyle> setStyle) => Configure(propertyNames, c => c.Header.SetStyle = setStyle);
+
+
+        public TableExporter<T> NumberFormatFor<TProperty>(Expression<Func<T, TProperty>> properties, string numberFormat) => NumberFormatFor(PropertyNames.For(properties), numberFormat);
+        public TableExporter<T> NumberFormatFor(IEnumerable<string> propertyNames, string numberFormat) => Configure(propertyNames, c => c.Content.NumberFormat = numberFormat);
+
+
+        public TableExporter<T> Display<TProperty>(Expression<Func<T, TProperty>> properties) => Display(PropertyNames.For(properties));
         public TableExporter<T> Display(IEnumerable<string> propertyNames)
         {
             if (DisplayedProperties == null)
@@ -100,14 +97,9 @@ namespace Dexiom.EPPlusExporter
 
             return this;
         }
-        
-        public TableExporter<T> Display<TProperty>(Expression<Func<T, TProperty>> properties)
-        {
-            Display(PropertyNames.For(properties));
 
-            return this;
-        }
 
+        public TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> properties) => Ignore(PropertyNames.For(properties));
         public TableExporter<T> Ignore(IEnumerable<string> propertyNames)
         {
             foreach (var propName in propertyNames)
@@ -116,11 +108,6 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
 
-        public TableExporter<T> Ignore<TProperty>(Expression<Func<T, TProperty>> properties)
-        {
-            Ignore(PropertyNames.For(properties));
-            return this;
-        }
 
         public TableExporter<T> DefaultNumberFormat(Type type, string numberFormat)
         {
@@ -128,31 +115,35 @@ namespace Dexiom.EPPlusExporter
             return this;
         }
 
-        public TableExporter<T> TextFormatFor<TProperty>(Expression<Func<T, TProperty>> property, string format)
+
+        public TableExporter<T> TextFormatFor<TProperty>(Expression<Func<T, TProperty>> properties, string format) => TextFormatFor(PropertyNames.For(properties), format);
+        public TableExporter<T> TextFormatFor(IEnumerable<string> propertyNames, string format)
         {
-            foreach (var propName in PropertyNames.For(property))
+            foreach (var propName in propertyNames)
                 TextFormats.AddOrUpdate(propName, format);
 
             return this;
         }
-        
-        public TableExporter<T> ConditionalStyleFor<TProperty>(Expression<Func<T, TProperty>> property, Action<T, ExcelStyle> setStyle)
+
+        public TableExporter<T> ConditionalStyleFor<TProperty>(Expression<Func<T, TProperty>> properties, Action<T, ExcelStyle> setStyle) => ConditionalStyleFor(PropertyNames.For(properties), setStyle);
+        public TableExporter<T> ConditionalStyleFor(IEnumerable<string> propertyNames, Action<T, ExcelStyle> setStyle)
         {
-            foreach (var propName in PropertyNames.For(property))
+            foreach (var propName in propertyNames)
                 ConditionalStyles.AddOrUpdate(propName, setStyle);
 
             return this;
         }
-        
-        public TableExporter<T> FormulaFor<TProperty>(Expression<Func<T, TProperty>> property, Func<T, object, string> formulaFormat)
+
+        public TableExporter<T> FormulaFor<TProperty>(Expression<Func<T, TProperty>> properties, Func<T, object, string> formulaFormat) => FormulaFor(PropertyNames.For(properties), formulaFormat);
+        public TableExporter<T> FormulaFor(IEnumerable<string> propertyNames, Func<T, object, string> formulaFormat)
         {
-            foreach (var propName in PropertyNames.For(property))
+            foreach (var propName in propertyNames)
                 Formulas.AddOrUpdate(propName, formulaFormat);
 
             return this;
         }
         #endregion
-        
+
         #region Protected
         protected Dictionary<string, string> TextFormats { get; } = new Dictionary<string, string>();
 
