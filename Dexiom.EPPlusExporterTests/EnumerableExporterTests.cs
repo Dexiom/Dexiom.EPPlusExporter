@@ -86,7 +86,13 @@ namespace Dexiom.EPPlusExporter.Tests
                 new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
             };
 
-            var excelPackage = EnumerableExporter.Create(data)
+            var dynamicProperties = new[]
+            {
+                DynamicProperty.Create(data, "DynamicColumn1", "Display Name 1", typeof(DateTime?), n => DateTime.Now.AddDays(n.IntValue - 4)),
+                DynamicProperty.Create(data, "DynamicColumn2", "Display Name 2", typeof(double), n => n.DoubleValue - 0.2)
+            };
+
+            var excelPackage = EnumerableExporter.Create(data, dynamicProperties)
                 .Configure(n => n.IntValue, configuration =>
                 {
                     configuration.Header.Text = "";
@@ -105,6 +111,14 @@ namespace Dexiom.EPPlusExporter.Tests
                         style.Border.Right.Style = ExcelBorderStyle.Dashed;
                     };
                 })
+                .Configure(new []{ "DynamicColumn1", "IntValue" }, n =>
+                    {
+                        n.Header.SetStyle = style =>
+                        {
+                            style.Font.Bold = true;
+                            style.Font.Color.SetColor(Color.Black);
+                        };
+                    })
                 .CustomizeTable(range =>
                 {
                     var newRange = range.Worksheet.Cells[range.End.Row, range.Start.Column, range.End.Row, range.End.Column];
@@ -113,7 +127,7 @@ namespace Dexiom.EPPlusExporter.Tests
                 })
                 .CreateExcelPackage();
 
-            //TestHelper.OpenDocument(excelPackage);
+            TestHelper.OpenDocument(excelPackage);
 
 
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
@@ -166,18 +180,31 @@ namespace Dexiom.EPPlusExporter.Tests
                 new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
             };
 
-            var excelWorksheet = EnumerableExporter.Create(data)
-                .DefaultNumberFormat(typeof(DateTime), "DATE: yyyy-MM-dd")
+            var dynamicProperties = new[]
+            {
+                DynamicProperty.Create(data, "DynamicColumn1", "Display Name 1", typeof(DateTime?), n => DateTime.Now.AddDays(n.IntValue - 4)),
+                DynamicProperty.Create(data, "DynamicColumn2", "Display Name 2", typeof(double), n => n.DoubleValue - 0.2)
+            };
+
+
+            var excelPackage = EnumerableExporter.Create(data, dynamicProperties)
+                .DefaultNumberFormat(typeof(DateTime), "| yyyy-MM-dd")
+                .DefaultNumberFormat(typeof(DateTime?), "|| yyyy-MM-dd")
                 .DefaultNumberFormat(typeof(double), "0.00 $")
                 .DefaultNumberFormat(typeof(int), "00")
-                .CreateExcelPackage()
-                .Workbook.Worksheets.First();
+                .CreateExcelPackage();
+            var excelWorksheet = excelPackage.Workbook.Worksheets.First();
+
+            //TestHelper.OpenDocument(excelPackage);
 
             string numberDecimalSeparator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
-            
-            Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Today.ToString("DATE: yyyy-MM-dd")); //DateValue
+
+            Assert.IsTrue(excelWorksheet.Cells[2, 2].Text == DateTime.Today.ToString("| yyyy-MM-dd")); //DateValue
             Assert.IsTrue(excelWorksheet.Cells[2, 3].Text == $"10{numberDecimalSeparator}20 $"); //DoubleValue
             Assert.IsTrue(excelWorksheet.Cells[2, 4].Text == "05"); //IntValue
+            Assert.IsTrue(excelWorksheet.Cells[2, 5].Text == DateTime.Today.AddDays(1).ToString("|| yyyy-MM-dd")); //DynamicColumn1
+            Assert.IsTrue(excelWorksheet.Cells[2, 6].Text == $"10{numberDecimalSeparator}00 $"); //DynamicColumn2
+
         }
 
         [TestMethod()]
@@ -249,6 +276,7 @@ namespace Dexiom.EPPlusExporter.Tests
             {
                 new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
             };
+
 
             const string textFormat = "Prefix: {0}";
             const string dateFormat = "{0:yyyy-MM-dd HH:mm}";
