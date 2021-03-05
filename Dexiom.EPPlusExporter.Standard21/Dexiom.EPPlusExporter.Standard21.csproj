@@ -36,4 +36,9 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Dexiom.EPPlusExporterTests.Core</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>

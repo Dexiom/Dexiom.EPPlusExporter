@@ -29,13 +29,19 @@ namespace Dexiom.EPPlusExporter.Helpers
 
         private static string FormatTableName(string tableName)
         {
-            var retVal = tableName.Replace(" ", InvalidCaracterPlaceholder);
+            var invalidChar = new [] { ' ', '-' };
+            var retVal = Replace(tableName, invalidChar, InvalidCaracterPlaceholder);
             
             if (!char.IsLetter(retVal[0]))
                 retVal = $"{InvalidCaracterPlaceholder}{retVal}";
 
             return retVal;
         }
-
+        
+        private static string Replace(string text, char[] invalidChars, string newVal)
+        {
+            var temp = text.Split(invalidChars, StringSplitOptions.RemoveEmptyEntries);
+            return string.Join(newVal, temp);
+        }
     }
 }

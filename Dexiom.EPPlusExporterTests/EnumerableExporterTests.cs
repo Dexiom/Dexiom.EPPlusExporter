@@ -151,7 +151,7 @@ namespace Dexiom.EPPlusExporter.Tests
         public void WorksheetConfigurationTest()
         {
             const string newWorksheetName = "1 - NewSheet";
-            const string newWorksheetExpectedTableName = "_1_-_NewSheet";
+            const string newWorksheetExpectedTableName = "_1_NewSheet";
             var data = new[]
             {
                 new { TextValue = "SomeText", DateValue = DateTime.Now, DoubleValue = 10.2, IntValue = 5}
