@@ -6,7 +6,7 @@
     <title>Dexiom.EPPlusExporter</title>
     <authors>Dexiom</authors>
     <owners>Dexiom</owners>
-    <iconUrl>https://raw.githubusercontent.com/Dexiom/Dexiom.EPPlusExporter/master/Docs/logo.png</iconUrl>
+    <icon>images\logo.png</icon>
     <licenseUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Dexiom/Dexiom.EPPlusExporter</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
@@ -22,10 +22,16 @@
         <dependency id="EPPlus" version="4.1.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
       </group>
+      <group targetFramework="netstandard2.1">
+        <dependency id="EPPlus" version="4.5.3.3" />
+        <dependency id="System.ComponentModel.Annotations" version="5.0.0" />
+      </group>
     </dependencies>
   </metadata>
   <files>
+    <file src="..\Docs\logo.png" target="images" />
     <file src="..\Dexiom.EPPlusExporter\bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net40"></file>
     <file src="..\Dexiom.EPPlusExporter.Net45\bin\Release\Dexiom.EPPlusExporter.dll" target="lib\net45"></file>
+    <file src="..\Dexiom.EPPlusExporter.Standard21\bin\Release\netstandard2.1\Dexiom.EPPlusExporter.dll" target="lib\netstandard2.1"></file>
   </files>
 </package>

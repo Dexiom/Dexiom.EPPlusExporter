@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Dexiom.EPPlusExporter</RootNamespace>
+    <AssemblyName>Dexiom.EPPlusExporter</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
