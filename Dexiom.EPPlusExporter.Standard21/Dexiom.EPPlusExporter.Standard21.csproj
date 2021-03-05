@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Dexiom.EPPlusExporter</RootNamespace>
+    <AssemblyName>Dexiom.EPPlusExporter</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Dexiom.EPPlusExporter\ColumnConfiguration.cs" Link="ColumnConfiguration.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\ColumnContentConfiguration.cs" Link="ColumnContentConfiguration.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\ColumnHeaderConfiguration.cs" Link="ColumnHeaderConfiguration.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\DisplayField.cs" Link="DisplayField.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\DynamicProperty.cs" Link="DynamicProperty.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\EnumerableExporter.cs" Link="EnumerableExporter.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Extensions\IDictionaryExtensions.cs" Link="Extensions\IDictionaryExtensions.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Extensions\MemberInfoExtensions.cs" Link="Extensions\MemberInfoExtensions.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Helpers\PropertyNames.cs" Link="Helpers\PropertyNames.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Helpers\ReflectionHelper.cs" Link="Helpers\ReflectionHelper.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Helpers\WorksheetHelper.cs" Link="Helpers\WorksheetHelper.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Interfaces\IExporter.cs" Link="Interfaces\IExporter.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Interfaces\ITableOutput.cs" Link="Interfaces\ITableOutput.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\Interfaces\ITableOutputCustomization.cs" Link="Interfaces\ITableOutputCustomization.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\ObjectExporter.cs" Link="ObjectExporter.cs" />
+    <Compile Include="..\Dexiom.EPPlusExporter\TableExporter.cs" Link="TableExporter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="4.5.3.3" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Dexiom.EPPlusExporterTests.Core</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+</Project>

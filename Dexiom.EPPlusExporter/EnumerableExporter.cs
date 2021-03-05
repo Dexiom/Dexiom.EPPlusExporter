@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Configuration;
-using System.Reflection;
 using Dexiom.EPPlusExporter.Helpers;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;

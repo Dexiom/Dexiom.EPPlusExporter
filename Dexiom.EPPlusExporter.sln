@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporter", "Dexiom.EPPlusExporter\Dexiom.EPPlusExporter.csproj", "{9A52C50C-F868-4838-8A5E-562A5DDA4707}"
 EndProject
@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporter.Net45", "Dexiom.EPPlusExporter.Net45\Dexiom.EPPlusExporter.Net45.csproj", "{1407E7D6-D040-49A9-902B-2404702ED82E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dexiom.EPPlusExporter.Standard21", "Dexiom.EPPlusExporter.Standard21\Dexiom.EPPlusExporter.Standard21.csproj", "{AED66075-4C69-458F-864D-03B743C76247}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dexiom.EPPlusExporterTests.Core", "Dexiom.EPPlusExporterTests.Core\Dexiom.EPPlusExporterTests.Core.csproj", "{2E0F19F8-7BF2-4FF0-AE07-B5D3A3CD1747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,8 +42,19 @@ Global
 		{1407E7D6-D040-49A9-902B-2404702ED82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1407E7D6-D040-49A9-902B-2404702ED82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1407E7D6-D040-49A9-902B-2404702ED82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AED66075-4C69-458F-864D-03B743C76247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AED66075-4C69-458F-864D-03B743C76247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AED66075-4C69-458F-864D-03B743C76247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AED66075-4C69-458F-864D-03B743C76247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E0F19F8-7BF2-4FF0-AE07-B5D3A3CD1747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E0F19F8-7BF2-4FF0-AE07-B5D3A3CD1747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E0F19F8-7BF2-4FF0-AE07-B5D3A3CD1747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E0F19F8-7BF2-4FF0-AE07-B5D3A3CD1747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {575C6E9E-C883-402E-8485-6BF48D7620C5}
 	EndGlobalSection
 EndGlobal

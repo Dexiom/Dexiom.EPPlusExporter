@@ -5,13 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Dexiom.EPPlusExporter.Extensions;
-#if NET45 || NET46
-using System.ComponentModel.DataAnnotations;
-#endif
 
 namespace Dexiom.EPPlusExporter.Helpers
 {
@@ -23,12 +18,12 @@ namespace Dexiom.EPPlusExporter.Helpers
             if (displayNameAttribute != null)
                 return displayNameAttribute.DisplayName;
 
-#if NET45 || NET46
-            var displayAttribute = MemberInfoExtensions.GetCustomAttribute<DisplayAttribute>(property, true);
+#if NET45 || NET46 || NETSTANDARD2_1
+            var displayAttribute = MemberInfoExtensions.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(property, true);
             if (displayAttribute != null)
                 return displayAttribute.Name;
 #endif
-            //well, no attribue found, let's just take that property's name then...
+            //well, no attribute found, let's just take that property's name then...
             return splitCamelCase ? SplitCamelCase(property.Name) : property.Name;
         }
 

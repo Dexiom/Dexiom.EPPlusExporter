@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
-using Dexiom.EPPlusExporter;
 using OfficeOpenXml;
 
 namespace Dexiom.EPPlusExporterTests.Helpers
