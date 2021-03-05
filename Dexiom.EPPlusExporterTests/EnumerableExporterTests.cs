@@ -127,7 +127,7 @@ namespace Dexiom.EPPlusExporter.Tests
                 })
                 .CreateExcelPackage();
 
-            TestHelper.OpenDocument(excelPackage);
+            //TestHelper.OpenDocument(excelPackage);
 
 
             var excelWorksheet = excelPackage.Workbook.Worksheets.First();
