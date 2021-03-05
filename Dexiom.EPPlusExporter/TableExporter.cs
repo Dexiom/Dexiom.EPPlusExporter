@@ -165,11 +165,9 @@ namespace Dexiom.EPPlusExporter
         {
 #if NET4
             var value = property.GetValue(item, null);
-#endif
-#if NET45 || NET46
+#else
             var value = property.GetValue(item);
 #endif
-
             return ApplyTextFormat(property.Name, value);
         }
 
