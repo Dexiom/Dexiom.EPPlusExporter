@@ -31,7 +31,7 @@ namespace EPPlusExporterDemo
                 .Ignore(n => n.IntValue);
 
             exporter.WorksheetName = "MyData";
-            exporter.TableStyle = TableStyles.Medium2;
+            exporter.TableStyle = TableStyles.Light1;
 
             var excelPackage = exporter.CreateExcelPackage();
 

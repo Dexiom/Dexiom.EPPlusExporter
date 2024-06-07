@@ -10,8 +10,8 @@ namespace Dexiom.EPPlusExporter
     #region Create Method (using type inference)
     public static class EnumerableExporter
     {
-        public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, TableStyles tableStyles = TableStyles.Medium4) where T : class => new EnumerableExporter<T>(data) { TableStyle = tableStyles };
-        public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, IEnumerable<DynamicProperty<T>> dynamicProperties, TableStyles tableStyles = TableStyles.Medium4) where T : class => new EnumerableExporter<T>(data, dynamicProperties) { TableStyle = tableStyles };
+        public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, TableStyles tableStyles = TableStyles.Light1) where T : class => new EnumerableExporter<T>(data) { TableStyle = tableStyles };
+        public static EnumerableExporter<T> Create<T>(IEnumerable<T> data, IEnumerable<DynamicProperty<T>> dynamicProperties, TableStyles tableStyles = TableStyles.Light1) where T : class => new EnumerableExporter<T>(data, dynamicProperties) { TableStyle = tableStyles };
     }
     #endregion
 
